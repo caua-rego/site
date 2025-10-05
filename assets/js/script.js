@@ -133,6 +133,83 @@ document.addEventListener('DOMContentLoaded', () => {
             el.addEventListener('mouseenter', () => { track.dataset.paused = 'true'; });
             el.addEventListener('mouseleave', () => { track.dataset.paused = 'false'; });
         });
+
+        // --- Auto-scroll / continuous animation for carousel (paused on hover/focus/visibility) ---
+        // Use a duplicated item list (we appended projects twice) so we can loop seamlessly.
+        (function enableAutoScroll() {
+            const MIN_SPEED_PX_PER_SEC = 28; // gentle scroll speed
+            let speed = MIN_SPEED_PX_PER_SEC;
+            let rafId = null;
+            let lastTime = null;
+
+            function shouldRun() {
+                // only run if there's overflow (content wider than container)
+                return track.scrollWidth > track.clientWidth * 1.05;
+            }
+
+            function step(now) {
+                if (!lastTime) lastTime = now;
+                const delta = (now - lastTime) / 1000; // seconds
+                lastTime = now;
+
+                // respect pause state and visibility
+                if (track.dataset.paused === 'true' || document.hidden) {
+                    // don't advance but keep timing anchored
+                    rafId = requestAnimationFrame(step);
+                    return;
+                }
+
+                if (!shouldRun()) {
+                    rafId = requestAnimationFrame(step);
+                    return;
+                }
+
+                // advance scroll
+                try {
+                    track.scrollLeft += speed * delta;
+                } catch (e) {
+                    // fail-safe
+                }
+
+                // loop seamlessly when we reach half the scroll (because items duplicated)
+                const half = track.scrollWidth / 2;
+                if (track.scrollLeft >= half) {
+                    track.scrollLeft -= half;
+                }
+
+                rafId = requestAnimationFrame(step);
+            }
+
+            // start when user is ready
+            function start() {
+                if (rafId) return;
+                lastTime = null;
+                rafId = requestAnimationFrame(step);
+            }
+
+            function stop() {
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+
+            // Pause auto-scroll while user interacts via touch/scroll
+            track.addEventListener('pointerdown', () => { track.dataset.paused = 'true'; });
+            track.addEventListener('pointerup', () => { track.dataset.paused = 'false'; });
+            track.addEventListener('wheel', () => { track.dataset.paused = 'true'; clearTimeout(track._wheelTimeout); track._wheelTimeout = setTimeout(() => { track.dataset.paused = 'false'; }, 800); });
+
+            // visibility handling
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    // let the loop keep running but it will early-return when hidden
+                } else {
+                    // resume
+                    lastTime = null;
+                }
+            });
+
+            // start auto-scroll
+            start();
+        })();
     }
 
     // Observe any existing lazy images in the page (featured cards, header logo, etc.)
