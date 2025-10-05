@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Configurações ---
     const projects = [
-        { name: 'RUBY-STUDIES', img: 'https://picsum.photos/seed/ruby/600/400', local: 'assets/images/carousel/ruby-studies.svg', lang: 'Ruby', color: 'bg-red-600', url: 'https://github.com/caua-rego/RUBY-STUDIES' },
-        { name: 'AQUATECH', img: 'https://picsum.photos/seed/aquatech/600/400', local: 'assets/images/aquatech.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/AQUATECH' },
-        { name: 'MINIMALIST-CAUA-REGO-WEBSITE', img: 'https://picsum.photos/seed/minimalist/600/400', local: 'assets/images/carousel/minimalist.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE' },
-        { name: 'BACKUP-AUTOMATION-LINUX', img: 'https://picsum.photos/seed/linux/600/400', local: 'assets/images/carousel/backup-automation.svg', lang: 'Shell', color: 'bg-gray-700', url: 'https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX' },
-        { name: 'APIFLASK', img: 'https://picsum.photos/seed/api/600/400', local: 'assets/images/apiflask.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/APIFLASK' },
-        { name: 'BANK-AUREA', img: 'https://picsum.photos/seed/bank/600/400', local: 'assets/images/bankaurea.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/BANK-AUREA' },
+    { name: 'RUBY-STUDIES', img: 'assets/images/carousel/ruby-studies.svg', local: 'assets/images/carousel/ruby-studies.svg', lang: 'Ruby', color: 'bg-red-600', url: 'https://github.com/caua-rego/RUBY-STUDIES' },
+    { name: 'AQUATECH', img: 'assets/images/carousel/aquatech.svg', local: 'assets/images/aquatech.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/AQUATECH' },
+    { name: 'MINIMALIST-CAUA-REGO-WEBSITE', img: 'assets/images/carousel/minimalist.svg', local: 'assets/images/carousel/minimalist.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE' },
+    { name: 'BACKUP-AUTOMATION-LINUX', img: 'assets/images/carousel/backup-automation.svg', local: 'assets/images/carousel/backup-automation.svg', lang: 'Shell', color: 'bg-gray-700', url: 'https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX' },
+    { name: 'APIFLASK', img: 'assets/images/carousel/apiflask.svg', local: 'assets/images/apiflask.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/APIFLASK' },
+    { name: 'BANK-AUREA', img: 'assets/images/carousel/bankaurea.svg', local: 'assets/images/carousel/bankaurea.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/BANK-AUREA' },
     ];
 
     // --- Carrossel Infinito (melhorado: lazy-loading, rel=noopener) ---
@@ -37,19 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.className = 'relative w-80 h-56 rounded-xl overflow-hidden shadow-lg group bg-[#21262d] border border-[#30363d]';
 
             const img = document.createElement('img');
-            // prefer a local SVG if available (faster and offline-friendly). If none, fall back to Unsplash.
+            // Prefer a local asset when available to avoid external requests.
             if (proj.local) {
                 img.src = proj.local;
-                // SVGs are small and render immediately; don't set data-src for them
+            } else if (proj.img && !/^https?:\/\//i.test(proj.img)) {
+                // if proj.img is a local path (not an http URL), use it directly
+                img.src = proj.img;
             } else {
-                const query = encodeURIComponent(`${proj.lang} programming ${proj.name.split(/[-_\\s]/)[0]}`);
-                const placeholder = `https://source.unsplash.com/40x28/?${proj.lang},code`;
-                const fullSrc = `https://source.unsplash.com/600x400/?${proj.lang},programming`;
-                const fullSrcset = `https://source.unsplash.com/400x267/?${proj.lang},programming 400w, ${fullSrc} 600w, https://source.unsplash.com/900x600/?${proj.lang},programming 900w`;
-
-                img.src = placeholder; // start with tiny blurred image
-                img.setAttribute('data-src', fullSrc);
-                img.setAttribute('data-srcset', fullSrcset);
+                // no local image available: use a tiny inline SVG placeholder and keep the external URL in data-src
+                // this prevents immediate external network calls while preserving lazy-load behavior
+                img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"></svg>';
+                if (proj.img) img.setAttribute('data-src', proj.img);
             }
             img.sizes = `(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px`;
             img.alt = `Projeto ${proj.name}`;
