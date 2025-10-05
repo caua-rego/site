@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0ea5a4"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="#071023" />
+  <rect x="22" y="22" width="556" height="356" rx="12" fill="url(#g1)" />
+  <text x="50%" y="50%" font-family="Verdana, Arial, sans-serif" font-size="36" fill="#042018" text-anchor="middle" dominant-baseline="middle">AQUATECH</text>
+</svg>

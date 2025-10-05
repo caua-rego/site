@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Configurações ---
     const projects = [
-        { name: 'RUBY-STUDIES', img: 'https://picsum.photos/seed/ruby/600/400', lang: 'Ruby', color: 'bg-red-600', url: 'https://github.com/caua-rego/RUBY-STUDIES' },
-        { name: 'AQUATECH', img: 'https://picsum.photos/seed/aquatech/600/400', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/AQUATECH' },
-        { name: 'MINIMALIST-CAUA-REGO-WEBSITE', img: 'https://picsum.photos/seed/minimalist/600/400', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE' },
-        { name: 'BACKUP-AUTOMATION-LINUX', img: 'https://picsum.photos/seed/linux/600/400', lang: 'Shell', color: 'bg-gray-700', url: 'https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX' },
-        { name: 'APIFLASK', img: 'https://picsum.photos/seed/api/600/400', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/APIFLASK' },
-        { name: 'BANK-AUREA', img: 'https://picsum.photos/seed/bank/600/400', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/BANK-AUREA' },
+        { name: 'RUBY-STUDIES', img: 'https://picsum.photos/seed/ruby/600/400', local: 'assets/images/carousel/ruby-studies.svg', lang: 'Ruby', color: 'bg-red-600', url: 'https://github.com/caua-rego/RUBY-STUDIES' },
+        { name: 'AQUATECH', img: 'https://picsum.photos/seed/aquatech/600/400', local: 'assets/images/aquatech.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/AQUATECH' },
+        { name: 'MINIMALIST-CAUA-REGO-WEBSITE', img: 'https://picsum.photos/seed/minimalist/600/400', local: 'assets/images/carousel/minimalist.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE' },
+        { name: 'BACKUP-AUTOMATION-LINUX', img: 'https://picsum.photos/seed/linux/600/400', local: 'assets/images/carousel/backup-automation.svg', lang: 'Shell', color: 'bg-gray-700', url: 'https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX' },
+        { name: 'APIFLASK', img: 'https://picsum.photos/seed/api/600/400', local: 'assets/images/apiflask.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/APIFLASK' },
+        { name: 'BANK-AUREA', img: 'https://picsum.photos/seed/bank/600/400', local: 'assets/images/bankaurea.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/BANK-AUREA' },
     ];
 
     // --- Carrossel Infinito (melhorado: lazy-loading, rel=noopener) ---
@@ -37,15 +37,20 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.className = 'relative w-80 h-56 rounded-xl overflow-hidden shadow-lg group bg-[#21262d] border border-[#30363d]';
 
             const img = document.createElement('img');
-            // use Unsplash thematic images (search queries) instead of picsum
-            const query = encodeURIComponent(`${proj.lang} programming ${proj.name.split(/[-_\s]/)[0]}`);
-            const placeholder = `https://source.unsplash.com/40x28/?${proj.lang},code`;
-            const fullSrc = `https://source.unsplash.com/600x400/?${proj.lang},programming`;
-            const fullSrcset = `https://source.unsplash.com/400x267/?${proj.lang},programming 400w, ${fullSrc} 600w, https://source.unsplash.com/900x600/?${proj.lang},programming 900w`;
+            // prefer a local SVG if available (faster and offline-friendly). If none, fall back to Unsplash.
+            if (proj.local) {
+                img.src = proj.local;
+                // SVGs are small and render immediately; don't set data-src for them
+            } else {
+                const query = encodeURIComponent(`${proj.lang} programming ${proj.name.split(/[-_\\s]/)[0]}`);
+                const placeholder = `https://source.unsplash.com/40x28/?${proj.lang},code`;
+                const fullSrc = `https://source.unsplash.com/600x400/?${proj.lang},programming`;
+                const fullSrcset = `https://source.unsplash.com/400x267/?${proj.lang},programming 400w, ${fullSrc} 600w, https://source.unsplash.com/900x600/?${proj.lang},programming 900w`;
 
-            img.src = placeholder; // start with tiny blurred image
-            img.setAttribute('data-src', fullSrc);
-            img.setAttribute('data-srcset', fullSrcset);
+                img.src = placeholder; // start with tiny blurred image
+                img.setAttribute('data-src', fullSrc);
+                img.setAttribute('data-srcset', fullSrcset);
+            }
             img.sizes = `(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px`;
             img.alt = `Projeto ${proj.name}`;
             img.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img';

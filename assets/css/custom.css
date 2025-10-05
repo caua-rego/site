@@ -43,7 +43,7 @@ body {
 :root{--bg:#0d1117;--card:#161b22;--muted:#9aa4ad;--accent:#22c55e}
 
 /* site container similar to prototype */
-.container{max-width:1100px;margin:0 auto;padding:1rem}
+.container{max-width:1280px;margin:0 auto;padding:1.25rem}
 
 /* header / brand */
 .site-header{position:sticky;top:0;background:rgba(5,7,10,0.55);backdrop-filter:blur(6px);}
