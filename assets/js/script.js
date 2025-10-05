@@ -125,13 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // pause auto interactions when hovering or focusing
+        // Use a central setter if available (defined later), otherwise fall back to dataset
         const pauseTargets = [track, prevBtn, nextBtn];
         pauseTargets.forEach(el => {
             if (!el) return;
-            el.addEventListener('focusin', () => { track.dataset.paused = 'true'; });
-            el.addEventListener('focusout', () => { track.dataset.paused = 'false'; });
-            el.addEventListener('mouseenter', () => { track.dataset.paused = 'true'; });
-            el.addEventListener('mouseleave', () => { track.dataset.paused = 'false'; });
+            el.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
+            el.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
+            el.addEventListener('mouseenter', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
+            el.addEventListener('mouseleave', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
         });
 
         // --- Auto-scroll / continuous animation for carousel (paused on hover/focus/visibility) ---
@@ -208,10 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 rafId = null;
             }
 
-            // Pause auto-scroll while user interacts via touch/scroll
-            track.addEventListener('pointerdown', () => { track.dataset.paused = 'true'; });
-            track.addEventListener('pointerup', () => { track.dataset.paused = 'false'; });
-            track.addEventListener('wheel', () => { track.dataset.paused = 'true'; clearTimeout(track._wheelTimeout); track._wheelTimeout = setTimeout(() => { track.dataset.paused = 'false'; }, 800); });
+            // Pause auto-scroll while user interacts via touch/scroll (use debounced setter)
+            track.addEventListener('pointerdown', () => { setPaused(true); });
+            track.addEventListener('pointerup', () => { setPaused(false); });
+            track.addEventListener('wheel', () => { setPaused(true); clearTimeout(track._wheelTimeout); track._wheelTimeout = setTimeout(() => { setPaused(false); }, 800); });
 
             // visibility handling
             document.addEventListener('visibilitychange', () => {
@@ -222,6 +223,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     lastTime = null;
                 }
             });
+
+            // Timered pause helper to avoid abrupt stop/start on quick mouse moves
+            let pauseTimeout = null;
+            function setPaused(paused) {
+                // debounce short toggles: if turning pause off, allow small delay to avoid flicker
+                if (pauseTimeout) clearTimeout(pauseTimeout);
+                if (!paused) {
+                    pauseTimeout = setTimeout(() => {
+                        track.dataset.paused = 'false';
+                        pauseTimeout = null;
+                    }, 120);
+                } else {
+                    track.dataset.paused = 'true';
+                }
+            }
+            // expose helper for other handlers
+            window.__carouselSetPaused = setPaused;
 
             // start auto-scroll
             // determine whether we should animate via scrollLeft or via transform

@@ -107,3 +107,36 @@ Você pode hospedar este site gratuitamente usando o GitHub Pages.
 - **CSS3** (para animações customizadas, carrossel e responsividade)
 - **JavaScript (ES6+)**
     - **Intersection Observer API** para animações de scroll e navegação inteligente.
+
+## Preparação para Uso Comercial
+
+Este repositório foi desenhado como um portfólio pessoal, mas pode ser preparado para uso comercial com alguns passos importantes:
+
+1. Licenciamento e direitos de imagem
+    - Substitua todas as imagens de placeholder (picsum) por imagens próprias ou licenciadas (compradas ou de domínio público).
+    - Mantenha registro das licenças (arquivos LICENSEs ou notas em uma pasta `legal/`) para qualquer ativo de terceiros.
+
+2. Termos e privacidade
+    - Se o site coletar dados (formulários, analytics), adicione uma página `privacy.html` com a política de privacidade e um consentimento claro para cookies/analytics.
+
+3. Analytics e performance
+    - Prefira soluções de analytics que respeitem privacidade (por exemplo Plausible, Fathom) para sites comerciais.
+    - Configure build para gerar imagens otimizadas (WebP, diferentes resoluções) e um CDN para assets estáticos.
+
+4. Contratos e presença legal
+    - Forneça informações de contato comerciais e, se aplicável, termos de serviço e contratos para clientes.
+
+5. Deploy & CI
+    - Adicione um pipeline de CI (GitHub Actions) que rode lint, testes simples e o build, e que faça deploy automático para GitHub Pages ou para uma hospedagem comercial.
+
+6. Checklist pré-lançamento comercial
+    - [ ] Substituir imagens de placeholder por assets licenciados
+    - [ ] Verificar acessibilidade (WCAG basics)
+    - [ ] Políticas de privacidade e cookies publicadas
+    - [ ] Testes de performance (Lighthouse) aprovados
+    - [ ] Pipeline de build & deploy configurado
+    - [ ] Backup / versionamento de assets críticos
+
+Se quiser, eu posso:
+- preparar um branch `feat/commercial-ready` que implemente esses passos básicos (README, pasta `legal/`, configuração inicial do GitHub Actions),
+- ou começar simplesmente substituindo as imagens de placeholder por arquivos locais otimizados.
