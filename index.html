@@ -189,17 +189,43 @@
                     btnRefs.current = btnRefs.current.slice(0, langs.length);
                 }, []);
 
-                function applyFilter(selected) {
+                function animateHide(card) {
+                    return new Promise(resolve => {
+                        card.classList.add('filter-hidden');
+                        const onEnd = (e) => {
+                            if (e && e.target !== card) return;
+                            card.removeEventListener('transitionend', onEnd);
+                            card.style.display = 'none';
+                            resolve();
+                        };
+                        card.addEventListener('transitionend', onEnd);
+                        // fallback in case transitionend doesn't fire
+                        setTimeout(() => { if (card.style.display !== 'none') { card.style.display = 'none'; resolve(); } }, 500);
+                    });
+                }
+
+                function animateShow(card) {
+                    card.style.display = '';
+                    // ensure the browser applies display before removing class
+                    requestAnimationFrame(() => {
+                        card.classList.remove('filter-hidden');
+                    });
+                }
+
+                async function applyFilter(selected) {
                     setFilter(selected);
-                    const cards = document.querySelectorAll('#featured-projects .reveal[data-lang]');
-                    cards.forEach(card => {
+                    const cards = Array.from(document.querySelectorAll('#featured-projects .reveal[data-lang]'));
+                    // animate hide/show
+                    for (const card of cards) {
                         const lang = card.getAttribute('data-lang');
                         if (selected === 'All' || lang === selected) {
-                            card.style.display = '';
+                            // show
+                            animateShow(card);
                         } else {
-                            card.style.display = 'none';
+                            // hide with animation
+                            await animateHide(card);
                         }
-                    });
+                    }
                 }
 
                 function onKeyDown(e, index) {

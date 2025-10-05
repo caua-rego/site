@@ -144,6 +144,16 @@ header nav a.active {
 }
 .filter-btn:hover { transform: translateY(-2px); }
 
+/* Filter animation: fade + slide for cards when filtering */
+.reveal {
+    transition: opacity 320ms cubic-bezier(.22,.9,.15,1), transform 320ms cubic-bezier(.22,.9,.15,1);
+}
+.reveal.filter-hidden {
+    opacity: 0 !important;
+    transform: translateY(12px) !important;
+    pointer-events: none;
+}
+
 /* --- Nav click animation (visual feedback) --- */
 .nav-click-anim {
     transform: translateY(2px) scale(0.99);
