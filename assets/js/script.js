@@ -137,10 +137,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Auto-scroll / continuous animation for carousel (paused on hover/focus/visibility) ---
         // Use a duplicated item list (we appended projects twice) so we can loop seamlessly.
         (function enableAutoScroll() {
-            const MIN_SPEED_PX_PER_SEC = 28; // gentle scroll speed
-            let speed = MIN_SPEED_PX_PER_SEC;
+            // compute speed by viewport to feel natural on mobile/desktop
+            function computeSpeed() {
+                if (window.matchMedia('(max-width: 480px)').matches) return 12; // mobile
+                if (window.matchMedia('(max-width: 1024px)').matches) return 20; // tablet
+                return 36; // desktop
+            }
+            let speed = computeSpeed();
+            window.addEventListener('resize', () => { speed = computeSpeed(); });
             let rafId = null;
             let lastTime = null;
+            let accumulated = 0; // sub-pixel accumulator
 
             function shouldRun() {
                 // only run if there's overflow (content wider than container)
@@ -164,9 +171,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // advance scroll
+                // advance scroll (use accumulator for sub-pixel precision)
                 try {
-                    track.scrollLeft += speed * delta;
+                    // small sinusoidal variance to avoid perfectly linear motion
+                    const sway = Math.sin(now / 1000) * 0.02; // -0.02 .. 0.02
+                    const px = (speed * (1 + sway)) * delta;
+                    accumulated += px;
+                    const intPx = Math.trunc(accumulated);
+                    if (intPx !== 0) {
+                        // perform immediate scroll for smooth continuous animation
+                        track.scrollLeft += intPx;
+                        accumulated -= intPx;
+                    }
                 } catch (e) {
                     // fail-safe
                 }

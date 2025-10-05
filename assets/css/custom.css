@@ -131,9 +131,20 @@ header nav a.active {
     scroll-snap-type: x mandatory;
 }
 
+/* reduce scroll-snap momentum to avoid fighting rAF auto-scroll */
+.carousel-track {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* we perform smoothness via rAF */
+}
+
 .carousel-track > div {
     scroll-snap-align: start;
 }
+
+/* prefer transform on hover for GPU acceleration */
+.carousel-track > div { backface-visibility: hidden; will-change: transform; }
+.carousel-track > div img { transform-origin: center center; transition: transform 360ms cubic-bezier(.22,.9,.15,1); }
+.carousel-track > div:hover img { transform: scale(1.04); }
 
 .carousel-prev, .carousel-next {
     backdrop-filter: blur(6px);
