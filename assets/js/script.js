@@ -129,18 +129,88 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenuButton.setAttribute('aria-expanded', 'false');
         mobileMenu.setAttribute('aria-hidden', 'true');
 
+        // focus trap variables
+        let previousFocused = null;
+        let trapHandler = null;
+
+        const getFocusable = (container) => {
+            const focusableSelectors = ['a[href]', 'button:not([disabled])', 'input:not([disabled])', 'textarea:not([disabled])', 'select:not([disabled])', '[tabindex]:not([tabindex="-1"])'];
+            return Array.from(container.querySelectorAll(focusableSelectors.join(','))).filter(el => el.offsetParent !== null);
+        };
+
+        const openMenu = () => {
+            previousFocused = document.activeElement;
+            mobileMenu.classList.remove('hidden');
+            mobileMenu.classList.add('open');
+            mobileMenu.setAttribute('aria-hidden', 'false');
+            mobileMenuButton.setAttribute('aria-expanded', 'true');
+
+            // focus first element inside menu
+            const focusable = getFocusable(mobileMenu);
+            if (focusable.length) {
+                focusable[0].focus();
+            } else {
+                // if no focusable, focus the menu for keyboard users
+                mobileMenu.setAttribute('tabindex', '-1');
+                mobileMenu.focus();
+            }
+
+            // trap Tab inside menu
+            trapHandler = (e) => {
+                if (e.key !== 'Tab') return;
+                const nodes = getFocusable(mobileMenu);
+                if (nodes.length === 0) {
+                    e.preventDefault();
+                    return;
+                }
+                const first = nodes[0];
+                const last = nodes[nodes.length - 1];
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            };
+
+            document.addEventListener('keydown', trapHandler);
+        };
+
+        const closeMenu = () => {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('open');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+            mobileMenuButton.setAttribute('aria-expanded', 'false');
+
+            if (trapHandler) {
+                document.removeEventListener('keydown', trapHandler);
+                trapHandler = null;
+            }
+
+            // restore previous focus
+            if (previousFocused && previousFocused.focus) {
+                previousFocused.focus();
+            }
+        };
+
         mobileMenuButton.addEventListener('click', () => {
             const isHidden = mobileMenu.classList.contains('hidden');
             if (isHidden) {
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.classList.add('open');
-                mobileMenu.setAttribute('aria-hidden', 'false');
-                mobileMenuButton.setAttribute('aria-expanded', 'true');
+                openMenu();
             } else {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('open');
-                mobileMenu.setAttribute('aria-hidden', 'true');
-                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                closeMenu();
+            }
+        });
+
+        // ensure ESC also closes and restores focus (already handled globally but ensure we call closeMenu)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                closeMenu();
             }
         });
     }

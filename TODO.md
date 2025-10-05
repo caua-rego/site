@@ -4,12 +4,8 @@ Este arquivo centraliza melhorias, bugs e próximos passos para o site.
 
 ## Prioridade Imediata
  [x] Tornar a lista de linguagens dinâmica (ler `data-lang` dos cards e gerar botões automaticamente)
-- [ ] Garantir que o `mobile-menu` tenha foco gerenciado (trap focus quando aberto)
+ [x] Garantir que o `mobile-menu` tenha foco gerenciado (trap focus quando aberto)
 
-## Curto Prazo (melhor UX / performance)
-- [ ] Substituir imagens do picsum por imagens reais no repositório (WebP + thumbs)
-- [ ] Gerar `srcset` a partir de imagens locais e remover dependência de picsum
-- [ ] Implementar um job de GitHub Actions para otimizar imagens (imagemin / sharp)
 - [ ] Adicionar `alt` descritivos mais ricos para imagens dos projetos
 
 ## Médio Prazo (arquitetura)
