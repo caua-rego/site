@@ -114,8 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // pause carousel while a card is focused/hovered
             projectElement.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
             projectElement.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
-            projectElement.addEventListener('mouseenter', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
-            projectElement.addEventListener('mouseleave', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
+            projectElement.addEventListener('mouseenter', () => {
+                // center the hovered card and pause the carousel
+                if (window.__carouselCenter) window.__carouselCenter(projectElement);
+                else if (window.__carouselSetPaused) window.__carouselSetPaused(true);
+                else track.dataset.paused = 'true';
+            });
+            projectElement.addEventListener('mouseleave', () => {
+                // resume after a small delay to avoid flicker
+                if (window.__carouselSetPaused) window.__carouselSetPaused(false);
+                else track.dataset.paused = 'false';
+            });
 
             track.appendChild(projectElement);
 
@@ -330,6 +339,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // expose helper for other handlers
             window.__carouselSetPaused = setPaused;
+
+            // expose a centering helper so hover handlers can center a card and pause
+            function centerCard(el) {
+                if (!el) return;
+                // compute center target differently depending on mode
+                if (useTransform && inner) {
+                    // el.offsetLeft is relative to inner
+                    const elCenter = el.offsetLeft + (el.offsetWidth / 2);
+                    const target = elCenter - (track.clientWidth / 2);
+                    const half = inner.scrollWidth / 2 || inner.scrollWidth;
+                    transformOffset = ((target % half) + half) % half; // normalize
+                    inner.style.transform = `translateX(${-Math.trunc(transformOffset)}px)`;
+                } else {
+                    const elLeft = el.offsetLeft;
+                    const target = elLeft - (track.clientWidth - el.offsetWidth) / 2;
+                    track.scrollTo({ left: Math.max(0, Math.trunc(target)), behavior: 'smooth' });
+                }
+                // pause after centering
+                setPaused(true);
+            }
+            window.__carouselCenter = centerCard;
 
             // start auto-scroll
             // determine whether we should animate via scrollLeft or via transform
