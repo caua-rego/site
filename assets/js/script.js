@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Configurações ---
     const projects = [
-    { name: 'RUBY-STUDIES', img: 'assets/images/carousel/ruby-studies.svg', local: 'assets/images/carousel/ruby-studies.svg', lang: 'Ruby', color: 'bg-red-600', url: 'https://github.com/caua-rego/RUBY-STUDIES' },
-    { name: 'AQUATECH', img: 'assets/images/carousel/aquatech.svg', local: 'assets/images/aquatech.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/AQUATECH' },
-    { name: 'MINIMALIST-CAUA-REGO-WEBSITE', img: 'assets/images/carousel/minimalist.svg', local: 'assets/images/carousel/minimalist.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE' },
-    { name: 'BACKUP-AUTOMATION-LINUX', img: 'assets/images/carousel/backup-automation.svg', local: 'assets/images/carousel/backup-automation.svg', lang: 'Shell', color: 'bg-gray-700', url: 'https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX' },
-    { name: 'APIFLASK', img: 'assets/images/carousel/apiflask.svg', local: 'assets/images/apiflask.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/APIFLASK' },
-    { name: 'BANK-AUREA', img: 'assets/images/carousel/bankaurea.svg', local: 'assets/images/carousel/bankaurea.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/BANK-AUREA' },
+    { name: '', img: 'assets/images/carousel/ruby-studies.svg', local: 'assets/images/carousel/ruby-studies.svg', lang: 'Ruby', color: 'bg-red-600', url: 'https://github.com/caua-rego/RUBY-STUDIES' },
+    { name: '', img: 'assets/images/carousel/aquatech.svg', local: 'assets/images/aquatech.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/AQUATECH' },
+    { name: '', img: 'assets/images/carousel/minimalist.svg', local: 'assets/images/carousel/minimalist.svg', lang: 'JavaScript', color: 'bg-blue-600', url: 'https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE' },
+    { name: '', img: 'assets/images/carousel/backup-automation.svg', local: 'assets/images/carousel/backup-automation.svg', lang: 'Shell', color: 'bg-gray-700', url: 'https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX' },
+    { name: '', img: 'assets/images/carousel/apiflask.svg', local: 'assets/images/apiflask.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/APIFLASK' },
+    { name: '', img: 'assets/images/carousel/bankaurea.svg', local: 'assets/images/carousel/bankaurea.svg', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/BANK-AUREA' },
     ];
 
     // --- Carrossel Infinito (melhorado: lazy-loading, rel=noopener) ---
@@ -113,19 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // pause carousel while a card is focused/hovered
+            // pause carousel while a card is focused
             projectElement.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
             projectElement.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
-            projectElement.addEventListener('mouseenter', () => {
-                // pause the carousel on hover
-                if (window.__carouselSetPaused) window.__carouselSetPaused(true);
-                else track.dataset.paused = 'true';
-            });
-            projectElement.addEventListener('mouseleave', () => {
-                // resume after a small delay to avoid flicker
-                if (window.__carouselSetPaused) window.__carouselSetPaused(false);
-                else track.dataset.paused = 'false';
-            });
 
             track.appendChild(projectElement);
 
@@ -140,9 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // after appending all items, observe the images for lazy loading
         imagesToObserve.forEach(img => imgObserver.observe(img));
 
-        // pause auto interactions when hovering or focusing
-        track.addEventListener('mouseenter', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
-        track.addEventListener('mouseleave', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
+        // pause auto interactions when focusing
         track.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
         track.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
 
