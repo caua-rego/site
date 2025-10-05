@@ -37,12 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.className = 'relative w-80 h-56 rounded-xl overflow-hidden shadow-lg group bg-[#21262d] border border-[#30363d]';
 
             const img = document.createElement('img');
-            // seed based on project name for consistent picsum images
-            const seed = encodeURIComponent(proj.name.toLowerCase().replace(/\s+/g, '-'));
-            // low-res blurred placeholder (quick to fetch)
-            const placeholder = `https://picsum.photos/seed/${seed}/40/28?blur=10`;
-            const fullSrc = `https://picsum.photos/seed/${seed}/600/400`;
-            const fullSrcset = `https://picsum.photos/seed/${seed}/400/267 400w, ${fullSrc} 600w, https://picsum.photos/seed/${seed}/900/600 900w`;
+            // use Unsplash thematic images (search queries) instead of picsum
+            const query = encodeURIComponent(`${proj.lang} programming ${proj.name.split(/[-_\s]/)[0]}`);
+            const placeholder = `https://source.unsplash.com/40x28/?${proj.lang},code`;
+            const fullSrc = `https://source.unsplash.com/600x400/?${proj.lang},programming`;
+            const fullSrcset = `https://source.unsplash.com/400x267/?${proj.lang},programming 400w, ${fullSrc} 600w, https://source.unsplash.com/900x600/?${proj.lang},programming 900w`;
 
             img.src = placeholder; // start with tiny blurred image
             img.setAttribute('data-src', fullSrc);
