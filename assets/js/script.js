@@ -20,10 +20,23 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.className = 'relative w-80 h-56 rounded-xl overflow-hidden shadow-lg group bg-[#21262d] border border-[#30363d]';
 
             const img = document.createElement('img');
-            img.src = proj.img;
+            // use the same seed but provide multiple sizes for responsive loading
+            const seed = encodeURIComponent(proj.name.toLowerCase().replace(/\s+/g, '-'));
+            img.src = `https://picsum.photos/seed/${seed}/600/400`;
+            img.srcset = `https://picsum.photos/seed/${seed}/400/267 400w, https://picsum.photos/seed/${seed}/600/400 600w, https://picsum.photos/seed/${seed}/900/600 900w`;
+            img.sizes = `(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px`;
             img.alt = `Projeto ${proj.name}`;
-            img.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105';
+            img.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img';
             img.loading = 'lazy';
+            img.decoding = 'async';
+            img.width = 600;
+            img.height = 400;
+
+            // remove blur placeholder when image loads
+            img.addEventListener('load', () => {
+                img.classList.remove('lazy-img');
+                img.classList.add('loaded');
+            });
 
             const overlay = document.createElement('div');
             overlay.className = 'absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center transition-opacity duration-300';
