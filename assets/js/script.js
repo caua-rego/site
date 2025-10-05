@@ -116,6 +116,14 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.addEventListener('mouseleave', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
 
             track.appendChild(projectElement);
+
+            // announce to screen readers when focused
+            const announceEl = document.getElementById('carousel-announce');
+            projectElement.addEventListener('focus', () => {
+                if (announceEl) {
+                    announceEl.textContent = `${proj.name}, ${proj.lang}`;
+                }
+            });
         });
         // after appending all items, observe the images for lazy loading
         imagesToObserve.forEach(img => imgObserver.observe(img));
