@@ -174,3 +174,42 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactEmailLink && footerEmailLink) {
         contactEmailLink.href = footerEmailLink.href;
     }
+
+    // --- Smooth scroll on nav click + nav click animation + close mobile menu ---
+    const internalNavLinks = document.querySelectorAll('header a[href^="#"], #mobile-menu a[href^="#"]');
+
+    internalNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // allow opening external or mailto links normally
+            const href = link.getAttribute('href');
+            if (!href || !href.startsWith('#')) return;
+
+            e.preventDefault();
+            const targetId = href.slice(1);
+            const targetEl = document.getElementById(targetId);
+
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // small visual feedback on the clicked link
+                link.classList.add('nav-click-anim');
+                setTimeout(() => link.classList.remove('nav-click-anim'), 700);
+            }
+
+            // If mobile menu is open, close it after clicking a link
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    });
+
+    // Improve accessibility: toggle aria-expanded on the mobile button
+    if (mobileMenuButton) {
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+        mobileMenuButton.addEventListener('click', () => {
+            const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', String(!expanded));
+        });
+    }
+
+});

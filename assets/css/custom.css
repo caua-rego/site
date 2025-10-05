@@ -118,3 +118,14 @@ header nav a.active {
         font-size: 3.75rem; /* Equivalente a text-6xl do Tailwind */
     }
 }
+
+/* --- Nav click animation (visual feedback) --- */
+.nav-click-anim {
+    transform: translateY(2px) scale(0.99);
+    transition: transform 160ms ease;
+}
+
+/* Ensure mobile menu floats above all content */
+#mobile-menu {
+    z-index: 60;
+}

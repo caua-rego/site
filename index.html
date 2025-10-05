@@ -29,12 +29,12 @@
                 <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contato</a>
             </nav>
             <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                <button id="mobile-menu-button" class="text-white focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-[#161b22] bg-opacity-95">
+        <div id="mobile-menu" class="hidden md:hidden bg-[#161b22] bg-opacity-95" aria-hidden="true">
             <nav class="flex flex-col items-center gap-4 py-8">
                 <a href="#hero" class="text-gray-400 hover:text-white transition-colors">Home</a>
                 <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Projetos</a>
@@ -168,4 +168,4 @@
 
     <script src="assets/js/script.js" defer></script>
 </body>
-</html>
+</html>``
