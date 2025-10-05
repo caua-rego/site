@@ -166,4 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const revealObserver = new IntersectionObserver(revealObserverCallback, revealObserverOptions);
         revealElements.forEach(element => revealObserver.observe(element));
     }
-});
+
+    // --- Atualizar Email de Contato ---
+    const contactEmailLink = document.querySelector('#contact a[href^="mailto:"]');
+    const footerEmailLink = document.querySelector('footer a[href^="mailto:"]');
+
+    if (contactEmailLink && footerEmailLink) {
+        contactEmailLink.href = footerEmailLink.href;
+    }

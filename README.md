@@ -32,6 +32,74 @@ Este é um projeto front-end estático, sem necessidade de servidor ou dependên
 3.  **Abra o `index.html`:**
     Abra o arquivo `index.html` no seu navegador de preferência.
 
+## Como Customizar os Projetos
+
+Para adicionar ou alterar os projetos exibidos no carrossel e na seção de destaque, edite o arquivo `assets/js/script.js`.
+
+### Carrossel de Projetos
+
+No início do arquivo, você encontrará um array chamado `projects`. Cada objeto neste array representa um projeto no carrossel.
+
+```javascript
+const projects = [
+    { name: 'NOME-DO-PROJETO', img: 'URL_DA_IMAGEM', lang: 'Linguagem', color: 'cor_de_fundo', url: 'URL_DO_PROJETO' },
+    // ... outros projetos
+];
+```
+
+- `name`: O nome do seu projeto.
+- `img`: A URL da imagem de preview.
+- `lang`: A linguagem ou tecnologia principal.
+- `color`: Uma classe de cor do Tailwind CSS para a tag de linguagem (ex: `bg-blue-600`).
+- `url`: O link para o repositório ou demo do projeto.
+
+### Projetos em Destaque
+
+Para alterar os projetos na seção "Projetos em Destaque", edite o HTML diretamente no arquivo `index.html` dentro da seção `id="featured-projects"`.
+
+```html
+<div class="bg-[#161b22] rounded-lg overflow-hidden shadow-lg border border-[#21262d] reveal">
+    <img src="URL_DA_IMAGEM" alt="Nome do Projeto" class="w-full h-48 object-cover">
+    <div class="p-6">
+        <h3 class="text-xl font-bold text-white mb-2">NOME DO PROJETO</h3>
+        <p class="text-gray-400 mb-4">Descrição do projeto.</p>
+        <a href="URL_DO_PROJETO" target="_blank" class="text-green-400 hover:text-green-300 transition">Ver Projeto &rarr;</a>
+    </div>
+</div>
+```
+
+## Como Fazer o Deploy no GitHub Pages
+
+Você pode hospedar este site gratuitamente usando o GitHub Pages.
+
+1.  **Crie um repositório no GitHub:** Se você ainda não o fez, crie um novo repositório no GitHub para o seu projeto.
+
+2.  **Envie os arquivos para o repositório:**
+
+    ```bash
+    # Adicione todos os arquivos
+    git add .
+
+    # Crie um commit com uma mensagem
+    git commit -m "Versão inicial do portfólio"
+
+    # Adicione o remote do seu repositório (substitua a URL)
+    git remote add origin https://github.com/seu-usuario/seu-repositorio.git
+
+    # Envie os arquivos para o branch principal (main)
+    git push -u origin main
+    ```
+
+3.  **Ative o GitHub Pages:**
+
+    - No seu repositório no GitHub, vá para **Settings** (Configurações).
+    - No menu lateral, clique em **Pages**.
+    - Em "Branch", selecione `main` e a pasta `/ (root)`. Clique em **Save**.
+
+4.  **Acesse seu site:**
+
+    Após alguns minutos, seu site estará disponível em `https://seu-usuario.github.io/seu-repositorio/`.
+
 ## Tecnologias Usadas
 
 - **HTML5**
