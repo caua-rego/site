@@ -192,6 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let rafId = null;
             let lastTime = null;
             let accumulated = 0; // sub-pixel accumulator
+            // transform-based animation state
+            let transformOffset = 0;
 
             function shouldRun() {
                 // only run if there's overflow (content wider than container)
@@ -211,9 +213,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // if we're in transform-based fallback mode, don't touch scrollLeft (CSS animates)
+                // if we're in transform-based fallback mode, drive transform with JS (keeps full control)
                 if (useTransform) {
-                    // keep timing anchored
+                    // compute px to advance transformOffset
+                    const sway = Math.sin(now / 1000) * 0.02;
+                    const px = (speed * (1 + sway)) * delta;
+                    transformOffset += px;
+                    const halfWidth = inner ? (inner.scrollWidth / 2) : 0;
+                    if (halfWidth > 0) {
+                        // wrap seamlessly
+                        if (transformOffset >= halfWidth) transformOffset -= halfWidth;
+                        inner.style.transform = `translateX(${-Math.trunc(transformOffset)}px)`;
+                    }
                     lastTime = now;
                     rafId = requestAnimationFrame(step);
                     return;
@@ -284,12 +295,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (paused) {
                     // immediate pause: mark dataset and stop rAF loop
                     track.dataset.paused = 'true';
+                    // freeze transform state if using transform mode
+                    if (useTransform && inner) {
+                        // read computed transform and set inline to lock visual position
+                        const cs = getComputedStyle(inner);
+                        inner.style.animationPlayState = 'paused';
+                        inner.style.transform = cs.transform === 'none' ? 'translateX(0px)' : cs.transform;
+                        // compute transformOffset from the matrix if possible
+                        try {
+                            const m = cs.transform.match(/matrix\(([^)]+)\)/);
+                            if (m) {
+                                const vals = m[1].split(',').map(parseFloat);
+                                // matrix(a, b, c, d, tx, ty) -> tx is vals[4]
+                                transformOffset = Math.abs(vals[4] || 0);
+                            }
+                        } catch (e) {}
+                    }
                     try { stop(); } catch (e) {}
                 } else {
                     // debounced resume to avoid flicker on quick mouse moves
                     pauseTimeout = setTimeout(() => {
                         track.dataset.paused = 'false';
                         pauseTimeout = null;
+                        // when resuming, if in transform mode ensure inner exists and set its transform based on transformOffset
+                        if (useTransform && inner) {
+                            inner.style.animationPlayState = 'running';
+                            inner.style.transform = `translateX(${-Math.trunc(transformOffset)}px)`;
+                        } else if (!useTransform) {
+                            // nothing special for scroll mode
+                        }
                         try { start(); } catch (e) {}
                     }, 160);
                 }

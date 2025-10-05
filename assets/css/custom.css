@@ -160,12 +160,19 @@ header nav a.active {
 /* fallback: if track doesn't overflow, animate the inner wrapper */
 .carousel-inner {
     display:flex;gap:var(--gap,16px);align-items:stretch;
-    animation: carouselFloat 12s ease-in-out infinite;
+    /* animation disabled; transform will be driven by JS for precise pause/resume */
+    animation: none;
     will-change: transform;
+    transform: translateX(0);
+    transition: transform 160ms linear;
 }
 
 /* pause the transform-based animation when JS marks the track paused */
-.carousel-track[data-paused="true"] .carousel-inner { animation-play-state: paused !important; }
+.carousel-track[data-paused="true"] .carousel-inner { transform-style: preserve-3d; }
+
+/* ensure hover sets a visual pointer and doesn't force layout changes */
+.carousel-container { cursor: grab; }
+.carousel-container:active { cursor: grabbing; }
 
 /* prefer transform on hover for GPU acceleration */
 .carousel-track > div { backface-visibility: hidden; will-change: transform; }
