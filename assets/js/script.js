@@ -10,22 +10,49 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'BANK-AUREA', img: 'https://picsum.photos/seed/bank/600/400', lang: 'Python', color: 'bg-purple-600', url: 'https://github.com/caua-rego/BANK-AUREA' },
     ];
 
-    // --- Carrossel Infinito ---
+    // --- Carrossel Infinito (melhorado: lazy-loading, rel=noopener) ---
     const track = document.querySelector('.carousel-track');
     if (track) {
-        const allProjects = [...projects, ...projects]; // Duplicar para o loop
+        const allProjects = [...projects, ...projects]; // duplicar para o loop infinito
 
         allProjects.forEach(proj => {
             const projectElement = document.createElement('div');
             projectElement.className = 'relative w-80 h-56 rounded-xl overflow-hidden shadow-lg group bg-[#21262d] border border-[#30363d]';
-            projectElement.innerHTML = `
-                <img src="${proj.img}" alt="Projeto ${proj.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-                <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center transition-opacity duration-300">
-                    <h3 class="text-xl font-bold text-white mb-2">${proj.name}</h3>
-                    <div class="flex gap-2 mb-4"><span class="${proj.color} text-white text-xs px-2 py-1 rounded">${proj.lang}</span></div>
-                    <a href="${proj.url}" target="_blank" class="project-link bg-green-600 hover:bg-green-400 text-white font-semibold px-4 py-2 rounded transition">Ver no GitHub</a>
-                </div>
-            `;
+
+            const img = document.createElement('img');
+            img.src = proj.img;
+            img.alt = `Projeto ${proj.name}`;
+            img.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105';
+            img.loading = 'lazy';
+
+            const overlay = document.createElement('div');
+            overlay.className = 'absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center transition-opacity duration-300';
+
+            const title = document.createElement('h3');
+            title.className = 'text-xl font-bold text-white mb-2';
+            title.textContent = proj.name;
+
+            const langWrap = document.createElement('div');
+            langWrap.className = 'flex gap-2 mb-4';
+            const langTag = document.createElement('span');
+            langTag.className = `${proj.color} text-white text-xs px-2 py-1 rounded`;
+            langTag.textContent = proj.lang;
+            langWrap.appendChild(langTag);
+
+            const link = document.createElement('a');
+            link.href = proj.url;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'project-link bg-green-600 hover:bg-green-400 text-white font-semibold px-4 py-2 rounded transition';
+            link.textContent = 'Ver no GitHub';
+
+            overlay.appendChild(title);
+            overlay.appendChild(langWrap);
+            overlay.appendChild(link);
+
+            projectElement.appendChild(img);
+            projectElement.appendChild(overlay);
+
             track.appendChild(projectElement);
         });
     }
@@ -44,13 +71,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Mobile Menu Toggle ---
+    // --- Mobile Menu Toggle (melhor acessibilidade + estado 'open') ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
     if (mobileMenuButton && mobileMenu) {
+        // inicializa atributos
+        mobileMenuButton.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+
         mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('open');
+                mobileMenu.setAttribute('aria-hidden', 'false');
+                mobileMenuButton.setAttribute('aria-expanded', 'true');
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('open');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 
@@ -196,20 +238,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => link.classList.remove('nav-click-anim'), 700);
             }
 
-            // If mobile menu is open, close it after clicking a link
+            // If mobile menu is open, close it after clicking a link and update aria
             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('open');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                if (mobileMenuButton) mobileMenuButton.setAttribute('aria-expanded', 'false');
             }
         });
     });
 
-    // Improve accessibility: toggle aria-expanded on the mobile button
-    if (mobileMenuButton) {
-        mobileMenuButton.setAttribute('aria-expanded', 'false');
-        mobileMenuButton.addEventListener('click', () => {
-            const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-            mobileMenuButton.setAttribute('aria-expanded', String(!expanded));
-        });
-    }
+    // --- Keyboard: ESC to close lightbox or mobile menu ---
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            // close lightbox if open
+            if (lightbox && lightbox.style.display === 'flex') {
+                lightbox.style.display = 'none';
+                document.body.classList.remove('lightbox-open');
+            }
+
+            // close mobile menu if open
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('open');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                if (mobileMenuButton) mobileMenuButton.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
 
 });

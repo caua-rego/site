@@ -22,6 +22,11 @@ body {
     animation: fadeIn 1.5s ease-out;
 }
 
+/* smooth scrolling for anchor navigation */
+html {
+    scroll-behavior: smooth;
+}
+
 body.lightbox-open {
     overflow: hidden;
 }
@@ -128,4 +133,19 @@ header nav a.active {
 /* Ensure mobile menu floats above all content */
 #mobile-menu {
     z-index: 60;
+}
+
+/* Animate mobile menu open/close (small slide down) */
+.md\:hidden #mobile-menu.open,
+#mobile-menu.open {
+    animation: mobileMenuIn 260ms cubic-bezier(.22,.9,.15,1) forwards;
+}
+
+@keyframes mobileMenuIn {
+    from { transform: translateY(-8px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
