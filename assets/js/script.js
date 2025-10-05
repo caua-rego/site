@@ -74,11 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.className = 'absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center transition-opacity duration-300';
 
             const title = document.createElement('h3');
-            title.className = 'text-xl font-bold text-white mb-2';
+            title.className = 'text-xl font-bold text-white mb-2 transition-all duration-300 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0';
             title.textContent = proj.name;
 
             const langWrap = document.createElement('div');
-            langWrap.className = 'flex gap-2 mb-4';
+            langWrap.className = 'flex gap-2 mb-4 transition-all duration-300 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0';
+            langWrap.style.transitionDelay = '100ms';
             const langTag = document.createElement('span');
             langTag.className = `${proj.color} text-white text-xs px-2 py-1 rounded`;
             langTag.textContent = proj.lang;
@@ -88,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             link.href = proj.url;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
-            link.className = 'project-link bg-green-600 hover:bg-green-400 text-white font-semibold px-4 py-2 rounded transition';
+            link.className = 'project-link bg-green-600 hover:bg-green-400 text-white font-semibold px-4 py-2 rounded transition-all duration-300 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0';
+            link.style.transitionDelay = '200ms';
             link.textContent = 'Ver no GitHub';
 
             overlay.appendChild(title);
@@ -115,9 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
             projectElement.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
             projectElement.addEventListener('mouseenter', () => {
-                // center the hovered card and pause the carousel
-                if (window.__carouselCenter) window.__carouselCenter(projectElement);
-                else if (window.__carouselSetPaused) window.__carouselSetPaused(true);
+                // pause the carousel on hover
+                if (window.__carouselSetPaused) window.__carouselSetPaused(true);
                 else track.dataset.paused = 'true';
             });
             projectElement.addEventListener('mouseleave', () => {
@@ -139,53 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // after appending all items, observe the images for lazy loading
         imagesToObserve.forEach(img => imgObserver.observe(img));
 
-        // --- Accessible carousel controls (prev/next, keyboard, pause on hover/focus) ---
-        const prevBtn = document.querySelector('.carousel-prev');
-        const nextBtn = document.querySelector('.carousel-next');
-
-        // helper to get card width including gap
-        function scrollByCard(direction = 1) {
-                // find an actual project card (not the .carousel-inner wrapper)
-                const inner = track.querySelector('.carousel-inner');
-                let firstCard = null;
-                if (inner) {
-                    firstCard = inner.querySelector('div');
-                } else {
-                    // direct children of track (may include text nodes); select element nodes only
-                    firstCard = Array.from(track.children).find(c => c.nodeType === 1 && !c.classList.contains('carousel-inner'));
-                }
-                if (!firstCard) return;
-                const gap = parseInt(getComputedStyle(track).gap) || 32;
-                const cardWidth = firstCard.offsetWidth + gap;
-                // If the track is using transform-based animation (inner exists), attempt to scroll the wrapper
-                if (inner) {
-                    // animate the inner by adjusting scrollLeft of the track as a fallback (will be no-op if no overflow)
-                    // but still perform smooth scroll attempt to keep behavior consistent
-                    track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
-                    return;
-                }
-                track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
-        }
-
-        if (prevBtn) prevBtn.addEventListener('click', () => scrollByCard(-1));
-        if (nextBtn) nextBtn.addEventListener('click', () => scrollByCard(1));
-
-        // keyboard navigation
-        track.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') { e.preventDefault(); scrollByCard(1); }
-            if (e.key === 'ArrowLeft') { e.preventDefault(); scrollByCard(-1); }
-        });
-
         // pause auto interactions when hovering or focusing
-        // Use a central setter if available (defined later), otherwise fall back to dataset
-        const pauseTargets = [track, prevBtn, nextBtn];
-        pauseTargets.forEach(el => {
-            if (!el) return;
-            el.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
-            el.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
-            el.addEventListener('mouseenter', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
-            el.addEventListener('mouseleave', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
-        });
+        track.addEventListener('mouseenter', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
+        track.addEventListener('mouseleave', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
+        track.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
+        track.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
 
         // --- Auto-scroll / continuous animation for carousel (paused on hover/focus/visibility) ---
         // Use a duplicated item list (we appended projects twice) so we can loop seamlessly.
@@ -296,11 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Timered pause helper to avoid abrupt stop/start on quick mouse moves
-            let pauseTimeout = null;
             function setPaused(paused) {
-                // debounce short toggles: if turning pause off, allow small delay to avoid flicker
-                if (pauseTimeout) clearTimeout(pauseTimeout);
                 if (paused) {
                     // immediate pause: mark dataset and stop rAF loop
                     track.dataset.paused = 'true';
@@ -322,70 +277,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     try { stop(); } catch (e) {}
                 } else {
-                    // debounced resume to avoid flicker on quick mouse moves
-                    pauseTimeout = setTimeout(() => {
-                        track.dataset.paused = 'false';
-                        pauseTimeout = null;
-                        // when resuming, if in transform mode ensure inner exists and set its transform based on transformOffset
-                        if (useTransform && inner) {
-                            inner.style.animationPlayState = 'running';
-                            inner.style.transform = `translateX(${-Math.trunc(transformOffset)}px)`;
-                        } else if (!useTransform) {
-                            // nothing special for scroll mode
-                        }
-                        try { start(); } catch (e) {}
-                    }, 160);
+                    track.dataset.paused = 'false';
+                    // when resuming, if in transform mode ensure inner exists and set its transform based on transformOffset
+                    if (useTransform && inner) {
+                        inner.style.animationPlayState = 'running';
+                        inner.style.transform = `translateX(${-Math.trunc(transformOffset)}px)`;
+                    } else if (!useTransform) {
+                        // nothing special for scroll mode
+                    }
+                    try { start(); } catch (e) {}
                 }
             }
             // expose helper for other handlers
             window.__carouselSetPaused = setPaused;
 
-            // expose a centering helper so hover handlers can center a card and pause
-            function centerCard(el) {
-                if (!el) return;
-                // compute center target differently depending on mode
-                if (useTransform && inner) {
-                    // el.offsetLeft is relative to inner
-                    const elCenter = el.offsetLeft + (el.offsetWidth / 2);
-                    const target = elCenter - (track.clientWidth / 2);
-                    const half = inner.scrollWidth / 2 || inner.scrollWidth;
-                    transformOffset = ((target % half) + half) % half; // normalize to [0..half)
-                    inner.style.transform = `translateX(${-Math.trunc(transformOffset)}px)`;
-                } else {
-                    // In scroll mode we have duplicated items; pick the duplicate nearest to the
-                    // current scroll position so the smooth scroll doesn't land past the half point
-                    // and trigger the loop-wrap which causes the visible "jump to start".
-                    const half = track.scrollWidth / 2 || 0;
-                    const current = track.scrollLeft || 0;
-                    const elLeft = el.offsetLeft;
 
-                    // generate candidate positions for the element (original + shifted copies)
-                    const candidates = [elLeft];
-                    if (half > 0) {
-                        candidates.push(elLeft - half, elLeft + half);
-                    }
-
-                    // choose candidate closest to current scroll position
-                    let chosen = candidates.reduce((best, c) => {
-                        if (Math.abs(c - current) < Math.abs(best - current)) return c;
-                        return best;
-                    }, candidates[0]);
-
-                    const target = chosen - (track.clientWidth - el.offsetWidth) / 2;
-                    // perform an immediate scroll to the chosen duplicate and normalize into the
-                    // first half so the resume logic won't subtract half and produce a visible jump.
-                    const desired = Math.max(0, Math.trunc(target));
-                    track.scrollLeft = desired;
-                    // normalize into first half if necessary (visual equivalent when duplicating)
-                    const halfScroll = half;
-                    if (halfScroll > 0 && track.scrollLeft >= halfScroll) {
-                        track.scrollLeft = track.scrollLeft - halfScroll;
-                    }
-                }
-                // pause after centering
-                setPaused(true);
-            }
-            window.__carouselCenter = centerCard;
 
             // start auto-scroll
             // determine whether we should animate via scrollLeft or via transform

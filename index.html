@@ -59,30 +59,30 @@
             </video>
             <div class="relative z-20 px-4 container">
                 <h1 id="typewriter" class="text-4xl md:text-6xl font-bold text-white"></h1>
-                <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">Arquitetando sonhos com código limpo e design funcional.</p>
-                <a href="#projects" class="animated-button btn btn-primary mt-8 inline-block font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow">Ver Projetos</a>
+                <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto reveal">Arquitetando sonhos com código limpo e design funcional.</p>
+                <a href="#projects" class="animated-button btn btn-primary mt-8 inline-block font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow reveal">Ver Projetos</a>
             </div>
             <div class="hero-decor" aria-hidden="true"></div>
         </section>
 
         <!-- Projetos Recentes (Carrossel Infinito) -->
         <section id="projects" class="py-20 bg-[#161b22]">
-            <h2 class="text-3xl font-bold text-center text-white mb-10">Projetos Recentes</h2>
+            <h2 class="text-3xl font-bold text-center text-white mb-10 reveal">Projetos Recentes</h2>
             <div class="carousel-container overflow-hidden relative max-w-6xl mx-auto" aria-label="Carrossel de projetos" role="region">
-                <button class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded bg-black bg-opacity-40 text-white hidden md:inline-flex" aria-label="Projetos anteriores">‹</button>
+                
                 <div class="flex carousel-track gap-8 w-max" tabindex="0">
                     <!-- Os itens serão preenchidos via JS -->
                 </div>
                 <!-- Live region for screen readers: announces focused project -->
                 <div id="carousel-announce" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-                <button class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded bg-black bg-opacity-40 text-white hidden md:inline-flex" aria-label="Próximos projetos">›</button>
+               
             </div>
         </section>
 
         <!-- Sobre Mim -->
-        <section id="about" class="py-20 bg-[#0d1117] text-gray-300 reveal">
-            <h2 class="text-3xl font-bold text-center mb-6">Sobre Mim</h2>
-            <p class="max-w-2xl mx-auto text-center text-lg">Desde o primeiro 'Hello, World!', sou fascinado pela capacidade de transformar lógica em experiências interativas. Minha paixão está em resolver quebra-cabeças complexos e construir software que não apenas funciona, mas que também proporciona uma experiência intuitiva e agradável ao usuário. Estou sempre em busca do próximo desafio e de novas tecnologias para aprender.</p>
+        <section id="about" class="py-20 bg-[#0d1117] text-gray-300">
+            <h2 class="text-3xl font-bold text-center mb-6 reveal">Sobre Mim</h2>
+            <p class="max-w-2xl mx-auto text-center text-lg reveal">Desde o primeiro 'Hello, World!', sou fascinado pela capacidade de transformar lógica em experiências interativas. Minha paixão está em resolver quebra-cabeças complexos e construir software que não apenas funciona, mas que também proporciona uma experiência intuitiva e agradável ao usuário. Estou sempre em busca do próximo desafio e de novas tecnologias para aprender.</p>
         </section>
 
         <!-- Projetos em Destaque -->
@@ -131,11 +131,11 @@
         </section>
 
         <!-- Contato -->
-        <section id="contact" class="py-20 bg-[#161b22] text-gray-300 reveal">
-            <h2 class="text-3xl font-bold text-center mb-6">Vamos Conversar?</h2>
-            <p class="text-center mb-6">Estou aberto a novas oportunidades e colaborações. Sinta-se à vontade para entrar em contato.</p>
+        <section id="contact" class="py-20 bg-[#161b22] text-gray-300">
+            <h2 class="text-3xl font-bold text-center mb-6 reveal">Vamos Conversar?</h2>
+            <p class="text-center mb-6 reveal">Estou aberto a novas oportunidades e colaborações. Sinta-se à vontade para entrar em contato.</p>
             <div class="flex justify-center">
-                <a href="mailto:cauaregoo12@gmail.com" class="animated-button bg-green-600 hover:bg-green-400 text-white font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow">Enviar Email</a>
+                <a href="mailto:cauaregoo12@gmail.com" class="animated-button bg-green-600 hover:bg-green-400 text-white font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow reveal">Enviar Email</a>
             </div>
         </section>
 
@@ -143,7 +143,7 @@
         <footer class="bg-[#161b22] text-gray-400 py-12 border-t border-[#21262d]">
             <div class="container mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                    <div class="flex flex-col items-center md:items-start">
+                    <div class="flex flex-col items-center md:items-start reveal">
                         <a href="#" class="flex items-center gap-3 mb-4">
                             <img src="assets/images/logo.png" alt="Cauã Rego Logo" loading="lazy" decoding="async" width="40" height="40" class="h-10 rounded">
                             <span class="text-white font-bold text-xl">Cauã Rego</span>
@@ -152,7 +152,7 @@
                             Desenvolvedor de software apaixonado por criar soluções digitais inovadoras e funcionais.
                         </p>
                     </div>
-                    <div>
+                    <div class="reveal">
                         <h3 class="text-white font-semibold text-lg mb-4">Links Rápidos</h3>
                         <nav class="flex flex-col gap-2">
                             <a href="#hero" class="hover:text-white transition-colors">Home</a>
@@ -161,7 +161,7 @@
                             <a href="#contact" class="hover:text-white transition-colors">Contato</a>
                         </nav>
                     </div>
-                    <div>
+                    <div class="reveal">
                         <h3 class="text-white font-semibold text-lg mb-4">Conecte-se Comigo</h3>
                         <div class="flex justify-center md:justify-start gap-4 mb-4">
                             <a href="https://github.com/caua-rego" target="_blank" class="hover:text-white transition-transform hover:scale-110">
