@@ -53,21 +53,26 @@ header nav a.active {
 }
 
 /* --- Carrossel de Projetos --- */
-@keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-320px * 6 - 2rem * 6)); } /* (largura_item * num_items) + (gap * num_items) */
-}
-
 .carousel-container {
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .carousel-track {
-    animation: scroll 60s linear infinite;
+    scroll-behavior: smooth;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
 }
 
-.carousel-container:hover .carousel-track {
-    animation-play-state: paused;
+.carousel-track > div {
+    scroll-snap-align: start;
+}
+
+.carousel-prev, .carousel-next {
+    backdrop-filter: blur(6px);
+}
+
+.carousel-prev:focus, .carousel-next:focus {
+    outline: 2px solid #22c55e;
 }
 
 /* --- Animações de Rolagem --- */

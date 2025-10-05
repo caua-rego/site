@@ -60,10 +60,12 @@
         <!-- Projetos Recentes (Carrossel Infinito) -->
         <section id="projects" class="py-20 bg-[#161b22]">
             <h2 class="text-3xl font-bold text-center text-white mb-10">Projetos Recentes</h2>
-            <div class="carousel-container overflow-hidden relative max-w-6xl mx-auto">
-                <div class="flex carousel-track gap-8 w-max">
+            <div class="carousel-container overflow-hidden relative max-w-6xl mx-auto" aria-label="Carrossel de projetos" role="region">
+                <button class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded bg-black bg-opacity-40 text-white hidden md:inline-flex" aria-label="Projetos anteriores">‹</button>
+                <div class="flex carousel-track gap-8 w-max" tabindex="0">
                     <!-- Os itens serão preenchidos via JS -->
                 </div>
+                <button class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded bg-black bg-opacity-40 text-white hidden md:inline-flex" aria-label="Próximos projetos">›</button>
             </div>
         </section>
 

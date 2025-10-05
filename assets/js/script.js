@@ -100,6 +100,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         // after appending all items, observe the images for lazy loading
         imagesToObserve.forEach(img => imgObserver.observe(img));
+
+        // --- Accessible carousel controls (prev/next, keyboard, pause on hover/focus) ---
+        const prevBtn = document.querySelector('.carousel-prev');
+        const nextBtn = document.querySelector('.carousel-next');
+
+        // helper to get card width including gap
+        function scrollByCard(direction = 1) {
+            const firstCard = track.querySelector('div');
+            if (!firstCard) return;
+            const cardStyle = window.getComputedStyle(firstCard);
+            const gap = parseInt(getComputedStyle(track).gap) || 32;
+            const cardWidth = firstCard.offsetWidth + gap;
+            track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => scrollByCard(-1));
+        if (nextBtn) nextBtn.addEventListener('click', () => scrollByCard(1));
+
+        // keyboard navigation
+        track.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); scrollByCard(1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); scrollByCard(-1); }
+        });
+
+        // pause auto interactions when hovering or focusing
+        const pauseTargets = [track, prevBtn, nextBtn];
+        pauseTargets.forEach(el => {
+            if (!el) return;
+            el.addEventListener('focusin', () => { track.dataset.paused = 'true'; });
+            el.addEventListener('focusout', () => { track.dataset.paused = 'false'; });
+            el.addEventListener('mouseenter', () => { track.dataset.paused = 'true'; });
+            el.addEventListener('mouseleave', () => { track.dataset.paused = 'false'; });
+        });
     }
 
     // Observe any existing lazy images in the page (featured cards, header logo, etc.)
