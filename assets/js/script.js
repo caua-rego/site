@@ -12,6 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Carrossel Infinito (melhorado: lazy-loading, rel=noopener) ---
     const track = document.querySelector('.carousel-track');
+    // list to collect images created for the carousel so we can observe them
+    const imagesToObserve = [];
+    // intersection observer to swap placeholder src to real src/srcset
+    const imgObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                const dataSrc = img.getAttribute('data-src');
+                const dataSrcset = img.getAttribute('data-srcset');
+                if (dataSrc) img.src = dataSrc;
+                if (dataSrcset) img.srcset = dataSrcset;
+                img.classList.remove('lazy-img');
+                img.classList.add('loaded');
+                obs.unobserve(img);
+            }
+        });
+    }, { rootMargin: '200px 0px', threshold: 0.01 });
     if (track) {
         const allProjects = [...projects, ...projects]; // duplicar para o loop infinito
 
@@ -20,10 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.className = 'relative w-80 h-56 rounded-xl overflow-hidden shadow-lg group bg-[#21262d] border border-[#30363d]';
 
             const img = document.createElement('img');
-            // use the same seed but provide multiple sizes for responsive loading
+            // seed based on project name for consistent picsum images
             const seed = encodeURIComponent(proj.name.toLowerCase().replace(/\s+/g, '-'));
-            img.src = `https://picsum.photos/seed/${seed}/600/400`;
-            img.srcset = `https://picsum.photos/seed/${seed}/400/267 400w, https://picsum.photos/seed/${seed}/600/400 600w, https://picsum.photos/seed/${seed}/900/600 900w`;
+            // low-res blurred placeholder (quick to fetch)
+            const placeholder = `https://picsum.photos/seed/${seed}/40/28?blur=10`;
+            const fullSrc = `https://picsum.photos/seed/${seed}/600/400`;
+            const fullSrcset = `https://picsum.photos/seed/${seed}/400/267 400w, ${fullSrc} 600w, https://picsum.photos/seed/${seed}/900/600 900w`;
+
+            img.src = placeholder; // start with tiny blurred image
+            img.setAttribute('data-src', fullSrc);
+            img.setAttribute('data-srcset', fullSrcset);
             img.sizes = `(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px`;
             img.alt = `Projeto ${proj.name}`;
             img.className = 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img';
@@ -32,11 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
             img.width = 600;
             img.height = 400;
 
-            // remove blur placeholder when image loads
+            // when full image loads remove blur class
             img.addEventListener('load', () => {
+                // if this load event is for the full image, remove blur
+                if (!img.classList.contains('lazy-img')) return; // already swapped
+                // if src equals placeholder, don't remove yet
+                if (img.src && img.src.indexOf('blur=10') !== -1) return;
                 img.classList.remove('lazy-img');
                 img.classList.add('loaded');
             });
+
+            // add to observe list for lazy loading
+            imagesToObserve.push(img);
 
             const overlay = document.createElement('div');
             overlay.className = 'absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center transition-opacity duration-300';
@@ -68,7 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             track.appendChild(projectElement);
         });
+        // after appending all items, observe the images for lazy loading
+        imagesToObserve.forEach(img => imgObserver.observe(img));
     }
+
+    // Observe any existing lazy images in the page (featured cards, header logo, etc.)
+    const existingLazy = document.querySelectorAll('img.lazy-img');
+    existingLazy.forEach(img => imgObserver.observe(img));
 
     // --- Animação de Clique nos Botões ---
     const animatedButtons = document.querySelectorAll('.animated-button');
