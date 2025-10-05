@@ -33,6 +33,21 @@ body {
     animation: fadeIn 1.5s ease-out;
 }
 
+/* design tokens inspired by prototype */
+:root{--bg:#0d1117;--card:#161b22;--muted:#9aa4ad;--accent:#22c55e}
+
+/* site container similar to prototype */
+.container{max-width:1100px;margin:0 auto;padding:1rem}
+
+/* header / brand */
+.site-header{position:sticky;top:0;background:rgba(5,7,10,0.55);backdrop-filter:blur(6px);}
+.brand{display:flex;gap:.6rem;align-items:center;text-decoration:none;color:#fff}
+
+/* buttons */
+.btn{padding:.8rem 1.2rem;border-radius:8px;text-decoration:none;display:inline-block}
+.btn-primary{background:var(--accent);color:#042018}
+.btn-ghost{border:1px solid rgba(255,255,255,0.06);color:#fff}
+
 /* smooth scrolling for anchor navigation */
 html {
     scroll-behavior: smooth;
@@ -99,6 +114,9 @@ header nav a.active {
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
+/* hero decorative gradient */
+.hero-decor{position:absolute;inset:0;z-index:-1;background:linear-gradient(120deg,rgba(34,197,94,0.06),transparent 30%)}
+
 .carousel-track {
     scroll-behavior: smooth;
     overflow-x: auto;
@@ -123,6 +141,11 @@ header nav a.active {
     transform: translateY(60px);
     transition: opacity 1s ease-out, transform 1s ease-out;
 }
+
+/* grid / cards for featured projects section */
+.grid{display:grid;gap:1rem}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);padding:1.2rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
 
 .reveal.visible {
     opacity: 1;
@@ -164,6 +187,9 @@ header nav a.active {
     footer .flex-col {
         text-align: center;
     }
+
+    .grid-3{grid-template-columns:1fr}
+
 }
 
 /* Reduce motion and heavy transitions on very small screens */

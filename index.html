@@ -17,8 +17,8 @@
 <body class="bg-[#0d1117] text-gray-200 min-h-screen">
 
     <header class="w-full z-30 p-4 sm:p-6 bg-[#161b22] bg-opacity-95 shadow">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#hero" class="flex items-center gap-3" aria-label="Ir para o topo - Home">
+    <div class="container flex justify-between items-center">
+            <a href="#hero" class="flex items-center gap-3 brand" aria-label="Ir para o topo - Home">
                 <img src="assets/images/logo.png" alt="Cauã Rego Logo" loading="lazy" decoding="async" width="40" height="40" class="h-8 sm:h-10 rounded">
                 <span class="text-white font-bold text-lg sm:text-xl">Cauã Rego</span>
             </a>
@@ -50,11 +50,12 @@
             <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
                 <source src="assets/video_jasmin_flowers_falling.mp4" type="video/mp4">
             </video>
-            <div class="relative z-20 px-4">
+            <div class="relative z-20 px-4 container">
                 <h1 id="typewriter" class="text-4xl md:text-6xl font-bold text-white"></h1>
                 <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">Arquitetando sonhos com código limpo e design funcional.</p>
-                <a href="#projects" class="animated-button mt-8 inline-block bg-green-600 text-white font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow">Ver Projetos</a>
+                <a href="#projects" class="animated-button btn btn-primary mt-8 inline-block font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow">Ver Projetos</a>
             </div>
+            <div class="hero-decor" aria-hidden="true"></div>
         </section>
 
         <!-- Projetos Recentes (Carrossel Infinito) -->
