@@ -3,9 +3,7 @@
 Este arquivo centraliza melhorias, bugs e próximos passos para o site.
 
 ## Prioridade Imediata
--- [x] Tornar o filtro de projetos acessível (aria-pressed, foco via teclado, roles)
-- [ ] Tornar a lista de linguagens dinâmica (ler `data-lang` dos cards e gerar botões automaticamente)
-- [ ] Melhorar animação de entrada/saída dos cards (fade/slide) para suavizar o filtro
+ [x] Tornar a lista de linguagens dinâmica (ler `data-lang` dos cards e gerar botões automaticamente)
 - [ ] Garantir que o `mobile-menu` tenha foco gerenciado (trap focus quando aberto)
 
 ## Curto Prazo (melhor UX / performance)

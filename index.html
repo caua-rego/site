@@ -181,13 +181,24 @@
 
             function Filter() {
                 const [filter, setFilter] = useState('All');
-                const langs = ['All', 'JavaScript', 'Ruby'];
+                // build languages dynamically from the featured project cards
+                const [langs, setLangs] = useState(() => {
+                    try {
+                        const nodes = Array.from(document.querySelectorAll('#featured-projects .reveal[data-lang]'));
+                        const vals = nodes.map(n => n.getAttribute('data-lang')).filter(Boolean);
+                        const uniq = Array.from(new Set(vals));
+                        return ['All', ...uniq];
+                    } catch (err) {
+                        return ['All'];
+                    }
+                });
+
                 const btnRefs = useRef([]);
 
                 useEffect(() => {
                     // ensure refs length matches langs
                     btnRefs.current = btnRefs.current.slice(0, langs.length);
-                }, []);
+                }, [langs]);
 
                 function animateHide(card) {
                     return new Promise(resolve => {
