@@ -154,6 +154,9 @@ header nav a.active {
     will-change: transform;
 }
 
+/* pause the transform-based animation when JS marks the track paused */
+.carousel-track[data-paused="true"] .carousel-inner { animation-play-state: paused !important; }
+
 /* prefer transform on hover for GPU acceleration */
 .carousel-track > div { backface-visibility: hidden; will-change: transform; }
 .carousel-track > div img { transform-origin: center center; transition: transform 360ms cubic-bezier(.22,.9,.15,1); }
