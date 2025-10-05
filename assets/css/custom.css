@@ -136,6 +136,14 @@ header nav a.active {
     opacity: 1;
 }
 
+/* Filter buttons (Preact component) */
+.filter-btn {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    transition: transform 120ms ease, background-color 150ms ease, color 150ms ease;
+}
+.filter-btn:hover { transform: translateY(-2px); }
+
 /* --- Nav click animation (visual feedback) --- */
 .nav-click-anim {
     transform: translateY(2px) scale(0.99);
