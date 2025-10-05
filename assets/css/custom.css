@@ -146,11 +146,18 @@ header nav a.active {
 
 /* Filter animation: fade + slide for cards when filtering */
 .reveal {
-    transition: opacity 320ms cubic-bezier(.22,.9,.15,1), transform 320ms cubic-bezier(.22,.9,.15,1);
+    /* animate only opacity and transform for best compositing
+       promote to its own layer with will-change to avoid paint/layout churn */
+    transition: transform 280ms cubic-bezier(.22,.9,.15,1), opacity 280ms cubic-bezier(.22,.9,.15,1);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /* Use 3D transform hint to encourage GPU compositing */
+    transform: translate3d(0,0,0);
 }
 .reveal.filter-hidden {
     opacity: 0 !important;
-    transform: translateY(12px) !important;
+    transform: translate3d(0,12px,0) !important;
     pointer-events: none;
 }
 

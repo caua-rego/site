@@ -215,17 +215,20 @@
                 async function applyFilter(selected) {
                     setFilter(selected);
                     const cards = Array.from(document.querySelectorAll('#featured-projects .reveal[data-lang]'));
-                    // animate hide/show
+                    const hidePromises = [];
+
+                    // trigger show for matches and collect hide promises for others
                     for (const card of cards) {
                         const lang = card.getAttribute('data-lang');
                         if (selected === 'All' || lang === selected) {
-                            // show
                             animateShow(card);
                         } else {
-                            // hide with animation
-                            await animateHide(card);
+                            hidePromises.push(animateHide(card));
                         }
                     }
+
+                    // wait for all hide animations to finish in parallel
+                    await Promise.all(hidePromises);
                 }
 
                 function onKeyDown(e, index) {
