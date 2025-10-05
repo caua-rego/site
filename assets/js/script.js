@@ -349,12 +349,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     const elCenter = el.offsetLeft + (el.offsetWidth / 2);
                     const target = elCenter - (track.clientWidth / 2);
                     const half = inner.scrollWidth / 2 || inner.scrollWidth;
-                    transformOffset = ((target % half) + half) % half; // normalize
+                    transformOffset = ((target % half) + half) % half; // normalize to [0..half)
                     inner.style.transform = `translateX(${-Math.trunc(transformOffset)}px)`;
                 } else {
+                    // In scroll mode we have duplicated items; pick the duplicate nearest to the
+                    // current scroll position so the smooth scroll doesn't land past the half point
+                    // and trigger the loop-wrap which causes the visible "jump to start".
+                    const half = track.scrollWidth / 2 || 0;
+                    const current = track.scrollLeft || 0;
                     const elLeft = el.offsetLeft;
-                    const target = elLeft - (track.clientWidth - el.offsetWidth) / 2;
-                    track.scrollTo({ left: Math.max(0, Math.trunc(target)), behavior: 'smooth' });
+
+                    // generate candidate positions for the element (original + shifted copies)
+                    const candidates = [elLeft];
+                    if (half > 0) {
+                        candidates.push(elLeft - half, elLeft + half);
+                    }
+
+                    // choose candidate closest to current scroll position
+                    let chosen = candidates.reduce((best, c) => {
+                        if (Math.abs(c - current) < Math.abs(best - current)) return c;
+                        return best;
+                    }, candidates[0]);
+
+                    const target = chosen - (track.clientWidth - el.offsetWidth) / 2;
+                    // perform an immediate scroll to the chosen duplicate and normalize into the
+                    // first half so the resume logic won't subtract half and produce a visible jump.
+                    const desired = Math.max(0, Math.trunc(target));
+                    track.scrollLeft = desired;
+                    // normalize into first half if necessary (visual equivalent when duplicating)
+                    const halfScroll = half;
+                    if (halfScroll > 0 && track.scrollLeft >= halfScroll) {
+                        track.scrollLeft = track.scrollLeft - halfScroll;
+                    }
                 }
                 // pause after centering
                 setPaused(true);
