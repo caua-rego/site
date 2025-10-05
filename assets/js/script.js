@@ -107,12 +107,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // helper to get card width including gap
         function scrollByCard(direction = 1) {
-            const firstCard = track.querySelector('div');
-            if (!firstCard) return;
-            const cardStyle = window.getComputedStyle(firstCard);
-            const gap = parseInt(getComputedStyle(track).gap) || 32;
-            const cardWidth = firstCard.offsetWidth + gap;
-            track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
+                // find an actual project card (not the .carousel-inner wrapper)
+                const inner = track.querySelector('.carousel-inner');
+                let firstCard = null;
+                if (inner) {
+                    firstCard = inner.querySelector('div');
+                } else {
+                    // direct children of track (may include text nodes); select element nodes only
+                    firstCard = Array.from(track.children).find(c => c.nodeType === 1 && !c.classList.contains('carousel-inner'));
+                }
+                if (!firstCard) return;
+                const gap = parseInt(getComputedStyle(track).gap) || 32;
+                const cardWidth = firstCard.offsetWidth + gap;
+                // If the track is using transform-based animation (inner exists), attempt to scroll the wrapper
+                if (inner) {
+                    // animate the inner by adjusting scrollLeft of the track as a fallback (will be no-op if no overflow)
+                    // but still perform smooth scroll attempt to keep behavior consistent
+                    track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
+                    return;
+                }
+                track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
         }
 
         if (prevBtn) prevBtn.addEventListener('click', () => scrollByCard(-1));
