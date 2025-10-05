@@ -203,7 +203,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // respect pause state and visibility
                 if (track.dataset.paused === 'true' || document.hidden) {
-                    // don't advance but keep timing anchored
+                    // reset lastTime so that when resuming we don't get a huge delta
+                    lastTime = now;
+                    rafId = requestAnimationFrame(step);
+                    return;
+                }
+
+                // if we're in transform-based fallback mode, don't touch scrollLeft (CSS animates)
+                if (useTransform) {
+                    // keep timing anchored
+                    lastTime = now;
                     rafId = requestAnimationFrame(step);
                     return;
                 }
