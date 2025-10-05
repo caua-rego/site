@@ -96,6 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
             projectElement.appendChild(img);
             projectElement.appendChild(overlay);
 
+            // make the project element keyboard-focusable and accessible
+            projectElement.tabIndex = 0;
+            projectElement.setAttribute('role', 'button');
+            projectElement.setAttribute('aria-label', `Abrir ${proj.name}`);
+
+            // keyboard: Enter or Space opens the project link
+            projectElement.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    link.click();
+                }
+            });
+
+            // pause carousel while a card is focused/hovered
+            projectElement.addEventListener('focusin', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
+            projectElement.addEventListener('focusout', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
+            projectElement.addEventListener('mouseenter', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(true); else track.dataset.paused = 'true'; });
+            projectElement.addEventListener('mouseleave', () => { if (window.__carouselSetPaused) window.__carouselSetPaused(false); else track.dataset.paused = 'false'; });
+
             track.appendChild(projectElement);
         });
         // after appending all items, observe the images for lazy loading
