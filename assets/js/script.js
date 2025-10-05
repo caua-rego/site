@@ -279,13 +279,17 @@ document.addEventListener('DOMContentLoaded', () => {
             function setPaused(paused) {
                 // debounce short toggles: if turning pause off, allow small delay to avoid flicker
                 if (pauseTimeout) clearTimeout(pauseTimeout);
-                if (!paused) {
+                if (paused) {
+                    // immediate pause: mark dataset and stop rAF loop
+                    track.dataset.paused = 'true';
+                    try { stop(); } catch (e) {}
+                } else {
+                    // debounced resume to avoid flicker on quick mouse moves
                     pauseTimeout = setTimeout(() => {
                         track.dataset.paused = 'false';
                         pauseTimeout = null;
-                    }, 120);
-                } else {
-                    track.dataset.paused = 'true';
+                        try { start(); } catch (e) {}
+                    }, 160);
                 }
             }
             // expose helper for other handlers
