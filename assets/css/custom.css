@@ -68,9 +68,17 @@ header nav a.active {
 }
 
 #typewriter {
-    border-right: 3px solid white;
     padding-right: 5px;
+}
+
+/* explicit cursor element for the typewriter so it can be controlled reliably */
+.tw-cursor {
+    display: inline-block;
+    width: 0.7ch;
+    margin-left: 2px;
+    vertical-align: bottom;
     animation: blinkCursor 700ms steps(40) infinite normal;
+    color: #fff;
 }
 
 /* --- Animação de Botão --- */

@@ -328,36 +328,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Efeito Máquina de Escrever Avançado ---
     const typewriterElement = document.getElementById('typewriter');
     if (typewriterElement) {
+        // use an explicit cursor element for reliable control
+        let cursor = document.createElement('span');
+        cursor.className = 'tw-cursor';
+        typewriterElement.appendChild(cursor);
+
         const baseText = "Desenvolvedor ";
         const words = ["de Software", "Back-end", "Front-end"];
         let wordIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
+        let typingTimer = null;
 
-        function type() {
+        function schedule(nextMs) {
+            if (typingTimer) clearTimeout(typingTimer);
+            typingTimer = setTimeout(run, nextMs);
+        }
+
+        function run() {
+            // if carousel paused, delay typing to keep in sync
+            if (track && track.dataset && track.dataset.paused === 'true') {
+                schedule(250);
+                return;
+            }
+            if (document.hidden) {
+                schedule(500);
+                return;
+            }
+
             const currentWord = words[wordIndex];
-            typewriterElement.innerHTML = baseText + currentWord.substring(0, charIndex);
+            // set text content but keep cursor as last child
+            typewriterElement.childNodes.forEach(n => { if (n !== cursor) typewriterElement.removeChild(n); });
+            const textNode = document.createTextNode(baseText + currentWord.substring(0, charIndex));
+            typewriterElement.insertBefore(textNode, cursor);
 
             let typeSpeed = isDeleting ? 60 : 120;
 
             if (!isDeleting && charIndex === currentWord.length) {
-                typeSpeed = 2000; // Pausa no final da palavra
+                typeSpeed = 2000; // pause at end
                 isDeleting = true;
-                typewriterElement.style.animation = 'blinkCursor 700ms steps(40) infinite normal'; // Começa a piscar
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 wordIndex = (wordIndex + 1) % words.length;
-                typeSpeed = 500; // Pausa antes de digitar a próxima palavra
-            } else {
-                typewriterElement.style.animation = 'none'; // Para de piscar ao digitar/apagar
+                typeSpeed = 500; // pause before next word
             }
 
             charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
-
-            setTimeout(type, typeSpeed);
+            schedule(typeSpeed);
         }
 
-        type();
+        schedule(500);
     }
 
     // --- Lógica do Lightbox ---
