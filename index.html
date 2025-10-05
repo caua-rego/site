@@ -3,188 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Portfólio de Cauã Rego | Desenvolvedor de Software</title>
     <meta name="description" content="Portfólio de Cauã Rego, um desenvolvedor de software apaixonado por transformar ideias em realidade digital através de código limpo e design funcional.">
-    
-    <!-- Favicon -->
     <link rel="icon" href="assets/images/logo.png" type="image/png">
-
-    <!-- Social Media Meta Tags (Open Graph) -->
     <meta property="og:title" content="Portfólio de Cauã Rego">
     <meta property="og:description" content="Arquitetando sonhos com código limpo e design funcional.">
     <meta property="og:image" content="assets/images/logo.png">
-    <meta property="og:url" content="https://caua-rego.github.io/"> <!-- Substitua pela URL final do seu site -->
+    <meta property="og:url" content="https://caua-rego.github.io/">
     <meta property="og:type" content="website">
-
-    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/custom.css">
 </head>
-<body>
+<body class="bg-[#0d1117] text-gray-200 min-h-screen">
 
-    <header>
-        <div class="logo">
-            <a href="#">
-                <img src="assets/images/logo.png" alt="Cauã Rego Logo" class="logo-img">
-                <span>Cauã Rego</span>
+    <header class="w-full z-30 p-4 sm:p-6 bg-[#161b22] bg-opacity-95 shadow">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3">
+                <img src="assets/images/logo.png" alt="Cauã Rego Logo" class="h-8 sm:h-10 rounded">
+                <span class="text-white font-bold text-lg sm:text-xl">Cauã Rego</span>
             </a>
+            <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+                <a href="#hero" class="text-gray-400 hover:text-white transition-colors">Home</a>
+                <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Projetos</a>
+                <a href="#about" class="text-gray-400 hover:text-white transition-colors">Sobre</a>
+                <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contato</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#projects">Projetos</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="#contact">Contato</a></li>
-            </ul>
-        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-[#161b22] bg-opacity-95">
+            <nav class="flex flex-col items-center gap-4 py-8">
+                <a href="#hero" class="text-gray-400 hover:text-white transition-colors">Home</a>
+                <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Projetos</a>
+                <a href="#about" class="text-gray-400 hover:text-white transition-colors">Sobre</a>
+                <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contato</a>
+            </nav>
+        </div>
     </header>
 
     <main>
-        <section id="hero">
-            <video autoplay loop muted playsinline class="hero-video">
+        <section id="hero" class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"></div>
+            <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
                 <source src="assets/video_jasmin_flowers_falling.mp4" type="video/mp4">
             </video>
-            <div class="hero-content">
-                <h1 id="typewriter"></h1>
-                <p class="subtitle">Arquitetando sonhos com código limpo e design funcional.</p>
-                <a href="#projects" class="cta-button">Ver Projetos</a>
+            <div class="relative z-20 px-4">
+                <h1 id="typewriter" class="text-4xl md:text-6xl font-bold text-white"></h1>
+                <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">Arquitetando sonhos com código limpo e design funcional.</p>
+                <a href="#projects" class="animated-button mt-8 inline-block bg-green-600 text-white font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow">Ver Projetos</a>
             </div>
         </section>
 
-        <section id="projects" class="reveal">
-            <h2>Projetos Recentes</h2>
-            <div class="project-carousel">
-                <div class="carousel-track">
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/ruby/600/400" alt="Projeto RUBY-STUDIES">
-                        <div class="gallery-overlay">
-                            <h3>RUBY-STUDIES</h3>
-                            <div class="project-tags"><span>Ruby</span></div>
-                            <a href="https://github.com/caua-rego/RUBY-STUDIES" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/aquatech/600/400" alt="Projeto AQUATECH">
-                        <div class="gallery-overlay">
-                            <h3>AQUATECH</h3>
-                            <div class="project-tags"><span>JavaScript</span><span>HTML</span><span>CSS</span></div>
-                            <a href="https://github.com/caua-rego/AQUATECH" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/minimalist/600/400" alt="Projeto MINIMALIST-CAUA-REGO-WEBSITE">
-                        <div class="gallery-overlay">
-                            <h3>MINIMALIST-CAUA-REGO-WEBSITE</h3>
-                            <div class="project-tags"><span>JavaScript</span></div>
-                            <a href="https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/linux/600/400" alt="Projeto BACKUP-AUTOMATION-LINUX">
-                        <div class="gallery-overlay">
-                            <h3>BACKUP-AUTOMATION-LINUX</h3>
-                            <div class="project-tags"><span>Shell</span><span>Linux</span></div>
-                            <a href="https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/api/600/400" alt="Projeto APIFLASK">
-                        <div class="gallery-overlay">
-                            <h3>APIFLASK</h3>
-                            <div class="project-tags"><span>Python</span><span>Flask</span></div>
-                            <a href="https://github.com/caua-rego/APIFLASK" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/bank/600/400" alt="Projeto BANK-AUREA">
-                        <div class="gallery-overlay">
-                            <h3>BANK-AUREA</h3>
-                            <div class="project-tags"><span>Python</span><span>Education</span></div>
-                            <a href="https://github.com/caua-rego/BANK-AUREA" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/ruby/600/400" alt="Projeto RUBY-STUDIES">
-                        <div class="gallery-overlay">
-                            <h3>RUBY-STUDIES</h3>
-                            <div class="project-tags"><span>Ruby</span></div>
-                            <a href="https://github.com/caua-rego/RUBY-STUDIES" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/aquatech/600/400" alt="Projeto AQUATECH">
-                        <div class="gallery-overlay">
-                            <h3>AQUATECH</h3>
-                            <div class="project-tags"><span>JavaScript</span><span>HTML</span><span>CSS</span></div>
-                            <a href="https://github.com/caua-rego/AQUATECH" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/minimalist/600/400" alt="Projeto MINIMALIST-CAUA-REGO-WEBSITE">
-                        <div class="gallery-overlay">
-                            <h3>MINIMALIST-CAUA-REGO-WEBSITE</h3>
-                            <div class="project-tags"><span>JavaScript</span></div>
-                            <a href="https://github.com/caua-rego/MINIMALIST-CAUA-REGO-WEBSITE" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/linux/600/400" alt="Projeto BACKUP-AUTOMATION-LINUX">
-                        <div class="gallery-overlay">
-                            <h3>BACKUP-AUTOMATION-LINUX</h3>
-                            <div class="project-tags"><span>Shell</span><span>Linux</span></div>
-                            <a href="https://github.com/caua-rego/BACKUP-AUTOMATION-LINUX" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/api/600/400" alt="Projeto APIFLASK">
-                        <div class="gallery-overlay">
-                            <h3>APIFLASK</h3>
-                            <div class="project-tags"><span>Python</span><span>Flask</span></div>
-                            <a href="https://github.com/caua-rego/APIFLASK" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
-                    <div class="gallery-item project-item">
-                        <img src="https://picsum.photos/seed/bank/600/400" alt="Projeto BANK-AUREA">
-                        <div class="gallery-overlay">
-                            <h3>BANK-AUREA</h3>
-                            <div class="project-tags"><span>Python</span><span>Education</span></div>
-                            <a href="https://github.com/caua-rego/BANK-AUREA" class="project-link" target="_blank">Ver no GitHub</a>
-                        </div>
-                    </div>
+        <!-- Projetos Recentes (Carrossel Infinito) -->
+        <section id="projects" class="py-20 bg-[#161b22]">
+            <h2 class="text-3xl font-bold text-center text-white mb-10">Projetos Recentes</h2>
+            <div class="carousel-container overflow-hidden relative max-w-6xl mx-auto">
+                <div class="flex carousel-track gap-8 w-max">
+                    <!-- Os itens serão preenchidos via JS -->
                 </div>
             </div>
         </section>
 
-        <section id="about" class="reveal">
-            <h2>Sobre Mim</h2>
-            <p>Desde o primeiro 'Hello, World!', sou fascinado pela capacidade de transformar lógica em experiências interativas. Minha paixão está em resolver quebra-cabeças complexos e construir software que não apenas funciona, mas que também proporciona uma experiência intuitiva e agradável ao usuário. Estou sempre em busca do próximo desafio e de novas tecnologias para aprender.</p>
+        <!-- Sobre Mim -->
+        <section id="about" class="py-20 bg-[#0d1117] text-gray-300">
+            <h2 class="text-3xl font-bold text-center mb-6">Sobre Mim</h2>
+            <p class="max-w-2xl mx-auto text-center text-lg">Desde o primeiro 'Hello, World!', sou fascinado pela capacidade de transformar lógica em experiências interativas. Minha paixão está em resolver quebra-cabeças complexos e construir software que não apenas funciona, mas que também proporciona uma experiência intuitiva e agradável ao usuário. Estou sempre em busca do próximo desafio e de novas tecnologias para aprender.</p>
         </section>
 
-        <section id="contact" class="reveal">
-            <h2>Vamos Conversar?</h2>
-            <p>Estou aberto a novas oportunidades e colaborações. Sinta-se à vontade para entrar em contato.</p>
-            <a href="mailto:seuemail@example.com" class="cta-button">Enviar Email</a>
+        <!-- Contato -->
+        <section id="contact" class="py-20 bg-[#161b22] text-gray-300">
+            <h2 class="text-3xl font-bold text-center mb-6">Vamos Conversar?</h2>
+            <p class="text-center mb-6">Estou aberto a novas oportunidades e colaborações. Sinta-se à vontade para entrar em contato.</p>
+            <div class="flex justify-center">
+                <a href="mailto:seuemail@example.com" class="animated-button bg-green-600 hover:bg-green-400 text-white font-semibold uppercase tracking-wider py-3 px-8 rounded-lg border border-green-600 hover:bg-transparent hover:text-green-400 hover:border-green-400 transition-all duration-300 shadow">Enviar Email</a>
+            </div>
         </section>
+
+        <!-- Footer -->
+        <footer class="bg-[#0d1117] text-gray-400 py-8 border-t border-[#21262d]">
+            <div class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-4">
+                <div class="flex gap-4">
+                    <a href="https://github.com/caua-rego" target="_blank" class="hover:text-white">GitHub</a>
+                    <a href="https://www.linkedin.com/in/caua-rego-developer/" target="_blank" class="hover:text-white">LinkedIn</a>
+                </div>
+                <div>
+                    <p>cauaregoo12@gmail.com</p>
+                </div>
+                <div>
+                    <p>&copy; 2025 Cauã Rego. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Lightbox -->
+        <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+            <span class="absolute top-4 right-8 text-white text-4xl cursor-pointer lightbox-close">&times;</span>
+            <img class="max-w-full max-h-[80vh] rounded shadow-lg" id="lightbox-img">
+        </div>
     </main>
-
-    <footer>
-        <div class="footer-divider"></div>
-        <div class="social-icons">
-            <a href="https://github.com/caua-rego" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/caua-rego-developer/" target="_blank">LinkedIn</a>
-        </div>
-        <div class="contact-info">
-            <p>cauaregoo12@gmail.com</p>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2025 Cauã Rego. Todos os direitos reservados.</p>
-        </div>
-    </footer>
-
-    <!-- Lightbox Structure -->
-    <div id="lightbox" class="lightbox">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-content" id="lightbox-img">
-    </div>
 
     <script src="assets/js/script.js" defer></script>
 </body>

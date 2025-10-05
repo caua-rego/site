@@ -1,0 +1,120 @@
+/*
+  Theme: Memory Grace - Professional Portfolio
+  Author: Cauã Rego
+  Version: 2.0
+*/
+
+/* --- Animações Globais --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes blinkCursor {
+    from, to { border-right-color: transparent; }
+    50% { border-right-color: white; }
+}
+
+/* --- Estilos Base --- */
+body {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    animation: fadeIn 1.5s ease-out;
+}
+
+body.lightbox-open {
+    overflow: hidden;
+}
+
+/* --- Navegação --- */
+header nav a.active {
+    color: #22c55e; /* Verde do Tailwind */
+}
+
+/* --- Hero com Vídeo --- */
+#hero video {
+    filter: blur(2px);
+}
+
+#typewriter {
+    border-right: 3px solid white;
+    padding-right: 5px;
+    animation: blinkCursor 700ms steps(40) infinite normal;
+}
+
+/* --- Animação de Botão --- */
+.animated-button {
+    transition: transform 0.1s ease;
+}
+
+/* --- Carrossel de Projetos --- */
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-320px * 6 - 2rem * 6)); } /* (largura_item * num_items) + (gap * num_items) */
+}
+
+.carousel-container {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.carousel-track {
+    animation: scroll 60s linear infinite;
+}
+
+.carousel-container:hover .carousel-track {
+    animation-play-state: paused;
+}
+
+/* --- Animações de Rolagem --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Lightbox --- */
+#lightbox {
+    transition: opacity 0.3s ease;
+}
+
+/* --- Media Queries para Responsividade --- */
+
+/* Telas menores (celulares) */
+@media (max-width: 767px) {
+    #hero h1 {
+        font-size: 2.5rem; /* Reduz o tamanho da fonte no hero */
+    }
+
+    #hero p {
+        font-size: 1rem;
+    }
+
+    section {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    h2 {
+        font-size: 1.875rem; /* Equivalente a text-3xl do Tailwind */
+    }
+
+    .carousel-container {
+        mask-image: none; /* Remove o gradiente em telas pequenas */
+    }
+
+    footer .flex-col {
+        text-align: center;
+    }
+}
+
+/* Telas de tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+    #hero h1 {
+        font-size: 3.75rem; /* Equivalente a text-6xl do Tailwind */
+    }
+}
