@@ -12,6 +12,13 @@
     <meta property="og:url" content="https://caua-rego.github.io/">
     <meta property="og:type" content="website">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preload key SVGs for featured projects to avoid flicker -->
+    <link rel="preload" as="image" href="assets/images/aquatech.svg">
+    <link rel="preload" as="image" href="assets/images/apiflask.svg">
+    <link rel="preload" as="image" href="assets/images/bankaurea.svg">
+    <!-- Webfont: Inter for better typography -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/custom.css">
 </head>
 <body class="bg-[#0d1117] text-gray-200 min-h-screen">
@@ -87,32 +94,38 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- AQUATECH -->
-                    <div class="bg-[#161b22] rounded-lg overflow-hidden shadow-lg border border-[#21262d] reveal" data-lang="JavaScript">
-                        <img src="assets/images/aquatech.svg" loading="lazy" decoding="async" width="600" height="400" alt="Aquatech" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">AQUATECH</h3>
-                            <p class="text-gray-400 mb-4">Projeto de um site de uma empresa de tecnologia.</p>
-                            <a href="https://github.com/caua-rego/AQUATECH" target="_blank" class="text-green-400 hover:text-green-300 transition">Ver Projeto &rarr;</a>
+                    <figure class="reveal" data-lang="JavaScript">
+                        <div class="bg-[#161b22] rounded-lg overflow-hidden shadow-lg border border-[#21262d]">
+                            <img src="assets/images/aquatech.svg" loading="lazy" decoding="async" width="600" height="400" alt="AQUATECH — layout e identidade visual para empresa de tecnologia" class="w-full h-48 object-cover">
+                            <figcaption class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">AQUATECH</h3>
+                                <p class="text-gray-400 mb-4">Layout e identidade visual para uma empresa de tecnologia.</p>
+                                <a href="https://github.com/caua-rego/AQUATECH" target="_blank" rel="noopener" class="text-green-400 hover:text-green-300 transition">Ver Projeto &rarr;</a>
+                            </figcaption>
                         </div>
-                    </div>
+                    </figure>
                     <!-- APIFLASK -->
-                    <div class="bg-[#161b22] rounded-lg overflow-hidden shadow-lg border border-[#21262d] reveal" data-lang="Python">
-                        <img src="assets/images/apiflask.svg" loading="lazy" decoding="async" width="600" height="400" alt="APIFLASK" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">APIFLASK</h3>
-                            <p class="text-gray-400 mb-4">Uma API construída com Flask para serviços e integrações.</p>
-                            <a href="https://github.com/caua-rego/APIFLASK" target="_blank" class="text-green-400 hover:text-green-300 transition">Ver Projeto &rarr;</a>
+                    <figure class="reveal" data-lang="Python">
+                        <div class="bg-[#161b22] rounded-lg overflow-hidden shadow-lg border border-[#21262d]">
+                            <img src="assets/images/apiflask.svg" loading="lazy" decoding="async" width="600" height="400" alt="APIFLASK — API REST construída com Flask" class="w-full h-48 object-cover">
+                            <figcaption class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">APIFLASK</h3>
+                                <p class="text-gray-400 mb-4">API REST construída com Flask para serviços e integrações.</p>
+                                <a href="https://github.com/caua-rego/APIFLASK" target="_blank" rel="noopener" class="text-green-400 hover:text-green-300 transition">Ver Projeto &rarr;</a>
+                            </figcaption>
                         </div>
-                    </div>
+                    </figure>
                     <!-- BANK AUREA -->
-                    <div class="bg-[#161b22] rounded-lg overflow-hidden shadow-lg border border-[#21262d] reveal" data-lang="Python">
-                        <img src="assets/images/bankaurea.svg" loading="lazy" decoding="async" width="600" height="400" alt="BANK AUREA" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">BANK AUREA</h3>
-                            <p class="text-gray-400 mb-4">Solução bancária desenvolvida com foco em estabilidade e segurança.</p>
-                            <a href="https://github.com/caua-rego/BANK-AUREA" target="_blank" class="text-green-400 hover:text-green-300 transition">Ver Projeto &rarr;</a>
+                    <figure class="reveal" data-lang="Python">
+                        <div class="bg-[#161b22] rounded-lg overflow-hidden shadow-lg border border-[#21262d]">
+                            <img src="assets/images/bankaurea.svg" loading="lazy" decoding="async" width="600" height="400" alt="BANK AUREA — protótipo de plataforma bancária" class="w-full h-48 object-cover">
+                            <figcaption class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">BANK AUREA</h3>
+                                <p class="text-gray-400 mb-4">Protótipo de plataforma bancária com foco em segurança e estabilidade.</p>
+                                <a href="https://github.com/caua-rego/BANK-AUREA" target="_blank" rel="noopener" class="text-green-400 hover:text-green-300 transition">Ver Projeto &rarr;</a>
+                            </figcaption>
                         </div>
-                    </div>
+                    </figure>
                 </div>
             </div>
         </section>

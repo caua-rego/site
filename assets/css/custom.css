@@ -34,9 +34,12 @@
 
 /* --- Estilos Base --- */
 body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     background-color: #0d1117;
     color: #c9d1d9;
     animation: fadeIn 1.5s ease-out;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* design tokens inspired by prototype */
@@ -44,6 +47,13 @@ body {
 
 /* site container similar to prototype */
 .container{max-width:1280px;margin:0 auto;padding:1.25rem}
+
+/* Typographic scale */
+h1 { font-size: 2.5rem; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.75rem; line-height: 1.15; font-weight: 700; }
+
+/* Standardize section vertical padding */
+section { padding-top: 5rem; padding-bottom: 5rem; }
 
 /* header / brand */
 .site-header{position:sticky;top:0;background:rgba(5,7,10,0.55);backdrop-filter:blur(6px);}
@@ -199,6 +209,10 @@ header nav a.active {
     opacity: 1;
     box-shadow: 0 14px 40px rgba(0,0,0,0.45);
 }
+
+/* stronger card shadow and hover microinteraction for all reveal cards */
+.reveal > div, .reveal { transition: transform 360ms cubic-bezier(.22,.9,.15,1), box-shadow 260ms ease; }
+.reveal:hover > div, .reveal:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
 
 /* hover sheen + elevation */
 #featured-projects .reveal:hover {
