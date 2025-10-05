@@ -224,6 +224,31 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // start auto-scroll
+            // determine whether we should animate via scrollLeft or via transform
+            let useTransform = false;
+            let inner = null;
+            function ensureInner() {
+                if (inner) return;
+                // wrap existing children in an inner container so we can translate it
+                inner = document.createElement('div');
+                inner.className = 'carousel-inner';
+                // move children into inner
+                while (track.firstChild) {
+                    inner.appendChild(track.firstChild);
+                }
+                track.appendChild(inner);
+            }
+
+            function recomputeMode() {
+                // if content is not wider enough to cause overflow, use transform animation
+                useTransform = track.scrollWidth <= track.clientWidth * 1.02;
+                if (useTransform) ensureInner();
+            }
+
+            // compute initial mode and on resize
+            recomputeMode();
+            window.addEventListener('resize', recomputeMode);
+
             start();
         })();
     }

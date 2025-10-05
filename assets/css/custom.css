@@ -26,6 +26,12 @@
     100% { background-position: 150% 0; }
 }
 
+@keyframes carouselFloat {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-12%); }
+    100% { transform: translateX(0); }
+}
+
 /* --- Estilos Base --- */
 body {
     background-color: #0d1117;
@@ -139,6 +145,13 @@ header nav a.active {
 
 .carousel-track > div {
     scroll-snap-align: start;
+}
+
+/* fallback: if track doesn't overflow, animate the inner wrapper */
+.carousel-inner {
+    display:flex;gap:var(--gap,16px);align-items:stretch;
+    animation: carouselFloat 12s ease-in-out infinite;
+    will-change: transform;
 }
 
 /* prefer transform on hover for GPU acceleration */
