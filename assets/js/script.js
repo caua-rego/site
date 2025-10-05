@@ -561,7 +561,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const revealObserverCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    try {
+                        // compute a local index among siblings to stagger animations
+                        const parent = entry.target.parentElement || document;
+                        const siblings = Array.from(parent.querySelectorAll('.reveal'));
+                        const idx = Math.max(0, siblings.indexOf(entry.target));
+                        const delay = Math.min(600, idx * 120); // cap delay
+                        entry.target.style.transitionDelay = `${delay}ms`;
+                        entry.target.classList.add('visible');
+
+                        const clearDelay = (e) => {
+                            entry.target.removeEventListener('transitionend', clearDelay);
+                            entry.target.style.transitionDelay = '';
+                        };
+                        entry.target.addEventListener('transitionend', clearDelay);
+                    } catch (err) {
+                        entry.target.classList.add('visible');
+                    }
                     observer.unobserve(entry.target);
                 }
             });

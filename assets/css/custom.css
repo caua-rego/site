@@ -187,6 +187,31 @@ header nav a.active {
     transform: translateY(-4px);
 }
 
+/* improved reveal for featured projects */
+#featured-projects .reveal {
+    transform: translateY(18px) scale(0.98);
+    opacity: 0;
+    transition: transform 520ms cubic-bezier(.22,.9,.15,1), opacity 520ms cubic-bezier(.22,.9,.15,1), box-shadow 260ms ease;
+    will-change: transform, opacity, box-shadow;
+}
+#featured-projects .reveal.visible {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+}
+
+/* hover sheen + elevation */
+#featured-projects .reveal:hover {
+    transform: translateY(-6px) scale(1.02);
+}
+#featured-projects .reveal::after {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 360ms ease;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0) 100%);
+    mix-blend-mode: overlay;
+}
+#featured-projects .reveal:hover::after { opacity: 1; }
+
 .reveal.visible {
     opacity: 1;
     transform: translateY(0);
