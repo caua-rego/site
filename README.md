@@ -2,7 +2,7 @@
 
 ✨ Um site de portfólio imersivo com fundo de vídeo, animações de scroll, e um carrossel de projetos infinito. Feito com HTML, CSS e JavaScript (ES6+).
 
-[Ver Demo Ao Vivo](https://caua-rego.github.io/memory-grace/) <!-- Substitua pela URL correta se for diferente -->
+[Ver Demo Ao Vivo](https://caua-rego.github.io/site/) 
 
 ## Features
 
