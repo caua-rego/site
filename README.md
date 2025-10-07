@@ -23,11 +23,11 @@ Este é um projeto front-end estático, sem necessidade de servidor ou dependên
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/caua-rego/memory-grace.git
+    git clone https://github.com/caua-rego/site.git
     ```
 2.  **Navegue até o diretório:**
     ```bash
-    cd memory-grace
+    cd site
     ```
 3.  **Abra o `index.html`:**
     Abra o arquivo `index.html` no seu navegador de preferência.
