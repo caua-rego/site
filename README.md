@@ -136,7 +136,3 @@ Este repositório foi desenhado como um portfólio pessoal, mas pode ser prepara
     - [ ] Testes de performance (Lighthouse) aprovados
     - [ ] Pipeline de build & deploy configurado
     - [ ] Backup / versionamento de assets críticos
-
-Se quiser, eu posso:
-- preparar um branch `feat/commercial-ready` que implemente esses passos básicos (README, pasta `legal/`, configuração inicial do GitHub Actions),
-- ou começar simplesmente substituindo as imagens de placeholder por arquivos locais otimizados.

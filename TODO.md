@@ -37,5 +37,3 @@ python3 -m http.server 8000
 3. Commit com mensagem descritiva e envie: `git push origin feat/<nome-da-feature>`
 4. Abra PR e descreva o que foi feito.
 
----
-Se quiser, eu já começo a implementar qualquer item desta lista — diga qual e eu implemento com commits pequenos e verificáveis.
